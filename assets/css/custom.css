@@ -1,0 +1,50 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  font-size: medium;
+  padding-top: 1px;
+  text-decoration:none;  
+  min-width:44px;
+  min-height:44px;
+  box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,.35);
+}
+
+.pagination li a {
+  color:#356AA0;
+}
+
+.breadcrumbs {
+  letter-spacing: 3px;
+  color:#356AA0;
+}
+
+.plant-view {
+  cursor: pointer;
+  font-size: large;
+  color: #36393D;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 1px 1px 1px 1px rgba(9,30,66,.25);
+  margin-bottom: 5px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+}
+
+.plant-view:hover {
+  color: #356AA0;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.plant-page {
+  font-size: medium;
+  color: #36393D;
+}
