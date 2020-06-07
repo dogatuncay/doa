@@ -10,8 +10,16 @@ defmodule DoaWeb.Router do
     plug :put_secure_browser_headers
   end
 
+  pipeline :auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug Guardian.Plug.VerifySession
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
   end
 
   # Other scopes may use custom stacks.
@@ -20,7 +28,17 @@ defmodule DoaWeb.Router do
     get "/plants", PlantController, :index
     get "/plants/:id", PlantController, :get
     post "/plants/search", PlantController, :search
+
+    post "/user/new", UserController, :new
+    # resources "/sessions", SessionController, only: [:create]
+    post "/sessions", SessionController, :create
   end
+
+  scope "/api", DoaWeb.Api do
+    pipe_through [:api, :auth]
+    post "/user/edit", UserController, :edit
+  end
+
 
   scope "/", DoaWeb do
     pipe_through :browser

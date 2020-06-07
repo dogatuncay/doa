@@ -10,6 +10,7 @@ import { QueryParamProvider } from 'use-query-params';
 import PlantIndexPage from '../pages/PlantIndexPage.js';
 import PlantPage from "../pages/PlantPage.js";
 import PlantSearchPage from "../pages/PlantSearchPage.js";
+import UserRegistrationPage from "../pages/UserRegistrationPage.js";
 
 export default function App() {
   return (
@@ -28,6 +29,9 @@ export default function App() {
               <li>
                 <Link to="/plant_search_page">Plant Search</Link>
               </li>
+              <li>
+                <Link to="/user_registration_page">User Registration</Link>
+              </li>
             </ul>
           </nav>
 
@@ -40,6 +44,9 @@ export default function App() {
             </Route>
             <Route path="/plant_search_page">
               <PlantSearchPage />
+            </Route>
+            <Route path="/user_registration_page">
+              <UserRegistrationPage />
             </Route>
             <Route path="/">
               <Home />

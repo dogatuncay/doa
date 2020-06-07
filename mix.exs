@@ -43,7 +43,9 @@ defmodule Doa.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:csv, "~> 1.2.3"}
+      {:csv, "~> 1.2.3"},
+      {:comeonin, "~> 2.4"},
+      {:guardian, "~> 0.10.0"}
     ]
   end
 

@@ -35,7 +35,7 @@ const PlantSearchPage = () => {
     }
   }
 
-  function updateState(e) {
+  function updateSearchText(e) {
     setSearchText(e.target.value);
   }
 
@@ -66,7 +66,7 @@ const PlantSearchPage = () => {
       <div>Plant Search Page</div>
       <input 
         type="text" 
-        onChange={updateState} 
+        onChange={updateSearchText} 
         onKeyPress={keyPressed}
         value={searchText}></input>
     </div>);
