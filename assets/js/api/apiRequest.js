@@ -1,10 +1,16 @@
-export default function fetchAPI(path, method, jsonData) {
-  return fetch(path, {
+export default function apiRequest(path, method, jsonData = null) {
+  const options = {
     method,
-    body: JSON.stringify(jsonData),
     headers: {'Content-Type': 'application/json'},
     credentials: 'same-origin'
-  })
+  };
+  if(!(['GET', 'HEAD', 'OPTIONS', 'DELETE'].includes(method))) {
+    if(!jsonData)
+      throw new Error('request data expected, but not provided');
+    options.body = JSON.stringify(jsonData);
+  }
+
+  return fetch(path, options)
     .then(function(response) {
       if(response.headers.get('Content-Type').indexOf('application/json') === 0) {
         return response.json()

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import {LOAD_PLANTS, LOAD_PLANTS_ALPHABETICALLY, LOAD_PLANTS_SEARCH} from '../actions/plantActions.js'
+import { LOAD_PLANTS, LOAD_PLANTS_ALPHABETICALLY, LOAD_PLANTS_SEARCH } from '../actions/plantActions.js'
+import { LOAD_USERS, LOAD_CURRENT_USER, REMOVE_CURRENT_USER } from '../actions/userActions.js'
 
 function plants(state = {}, action) {
   const newState = {...state};
@@ -40,10 +41,42 @@ function plantsSearch(state = {index: {}, count: 0, lastSearchTerm: null}, actio
   }
 }
 
+function users(state = {}, action) {
+  function loadUsers(users) {
+    const newState = {...state};
+    users.forEach((user) => newState[user.id] = user);
+    return newState;
+  }
+  
+  switch(action.type) {
+    case LOAD_USERS:
+      return loadUsers(action.users);
+    case LOAD_CURRENT_USER:
+      return loadUsers([action.user]);
+    case REMOVE_CURRENT_USER:
+      return state.filter((user) => user.id !== action.userId);
+    default:
+      return state;
+  }
+}
+
+function currentUser(state = null, action) {
+  switch(action.type) {
+    case LOAD_CURRENT_USER:
+      return action.user.id;
+    case REMOVE_CURRENT_USER:
+      return null;
+    default: 
+      return state;
+  }
+}
+
 const reducers = combineReducers({
   plants,
   plantsAlphabetically,
-  plantsSearch
+  plantsSearch,
+  users,
+  currentUser
 })
 
 export default reducers;

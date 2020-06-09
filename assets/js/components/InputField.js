@@ -37,7 +37,7 @@ function interpolateErrorMessage(message, context) {
   return acc;
 }
 
-const Field = ({name, value, error, onChange}) => {
+const InputField = ({name, value, error, onChange}) => {
   let errMessage;
   if(error) {
     errMessage = (<div style={{color: 'red'}}>{`${interpolateErrorMessage(error.message, error.context)}`}</div>);
@@ -55,4 +55,4 @@ const Field = ({name, value, error, onChange}) => {
 }
 // TODO: prop types
 
-export default Field;
+export default InputField;

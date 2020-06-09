@@ -30,12 +30,13 @@ defmodule DoaWeb.Router do
     post "/plants/search", PlantController, :search
 
     post "/user/new", UserController, :new
-    # resources "/sessions", SessionController, only: [:create]
     post "/sessions", SessionController, :create
   end
 
   scope "/api", DoaWeb.Api do
     pipe_through [:api, :auth]
+    get "/sessions", SessionController, :get
+    delete "/sessions", SessionController, :delete
     post "/user/edit", UserController, :edit
   end
 

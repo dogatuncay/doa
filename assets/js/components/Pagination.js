@@ -55,6 +55,8 @@ const Pagination = ({page, maxPages, onChange}) => {
     }
   }
 
+  if(maxPages <= 0) return <div />;
+
   var paginationElements;
   if(maxPages <= SPAN_WIDTH) {
     paginationElements = <>{mapRange(1, maxPages, renderPageNumber)}</>

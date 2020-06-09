@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { createNewUser } from '../api/user.js';
+import { signIn } from '../api/user.js';
 import InputField from '../components/InputField.js';
 
-const UserRegistrationPage = () => {
+const SignInPage = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const [data, setData] = useState({
     email: '',
-    name: '',
-    user_name: '',
     password: ''
   });
   const [errors, setErrors] = useState({});
@@ -19,23 +20,24 @@ const UserRegistrationPage = () => {
   }
 
   function field(name) {
-    return <InputField name={name} value={data[name]} error={name in errors ? errors[name] : null} onChange={updateField} />
+    return <InputField name={name} value={data[name]} error={errors && name in errors ? errors[name] : null} onChange={updateField} />
   }
 
   function onClick() {
     setErrors({});
-    createNewUser(data, dispatch,  (err) => SetErrors(err));
+    signIn(data, dispatch, (err) => setErrors(err))
+    .then(() => {
+      history.push('/');
+    })
   }
 
   return (
     <div>
-      {field('name')}
-      {field('user_name')}
       {field('email')}
       {field('password')}
-      <Button variant="primary" onClick={onClick}>Submit</Button>
+      <Button variant="primary" onClick={onClick}>Sign In</Button>
     </div>
   );
 }
 
-export default UserRegistrationPage;
+export default SignInPage;

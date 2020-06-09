@@ -2,7 +2,7 @@ defmodule Doa.Main.User do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @derive {Jason.Encoder, only: [:name, :user_name, :email]}
+  @derive {Jason.Encoder, only: [:id, :name, :user_name, :email]}
   schema "users" do
     field :name, :string
     field :user_name, :string

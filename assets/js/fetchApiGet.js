@@ -1,7 +1,8 @@
 export default function fetchAPIGet(path, method) {
   return fetch(path, {
     method,
-    headers: {'Content-Type': 'application/json'}
+    headers: {'Content-Type': 'application/json'},
+    credentials: 'same-origin'
   })
     .then(function(response) {
       if(response.headers.get('Content-Type').indexOf('application/json') === 0) {

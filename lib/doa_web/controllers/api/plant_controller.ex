@@ -13,9 +13,12 @@ defmodule DoaWeb.Api.PlantController do
     Repo.aggregate(query, :count, :id)
   end
 
+  defp parse_int(n) when is_integer(n), do: n
+  defp parse_int(s) when is_binary(s), do: String.to_integer(s)
+
   def index(conn, %{"limit" => limit, "offset" => offset}) do
     try do
-      if String.to_integer(limit) <= @max_limit do
+      if parse_int(limit) <= @max_limit do
         query = from(p in Plant, limit: ^limit, offset: ^offset, order_by: p.scientific_name)
         plants = Repo.all query
         num_entries = tot_num_of_records(Plant)
@@ -44,7 +47,7 @@ defmodule DoaWeb.Api.PlantController do
 
   def search(conn, %{"filter" => filter, "limit" => limit, "offset" => offset}) do
     try do
-      if String.to_integer(limit) <= @max_limit do
+      if parse_int(limit) <= @max_limit do
         search_query = Plant.search(filter)
         num_entries = tot_num_of_records(search_query)
         paginated_query = (from q in search_query, limit: ^limit, offset: ^offset)

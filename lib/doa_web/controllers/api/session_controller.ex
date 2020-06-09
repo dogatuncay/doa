@@ -1,4 +1,4 @@
-defmodule DoaWeb.SessionController do
+defmodule DoaWeb.Api.SessionController do
   use DoaWeb, :controller
   plug :put_view, DoaWeb.ApiView
 
@@ -12,6 +12,10 @@ defmodule DoaWeb.SessionController do
       end
   end
 
+  def get(conn, _) do
+    logged_in_user = Guardian.Plug.current_resource(conn)
+    render(conn, "ok.json", %{result: logged_in_user})
+  end
   def delete(conn, _) do
     conn
     |> Guardian.Plug.sign_out
