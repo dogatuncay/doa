@@ -48,3 +48,9 @@
   font-size: medium;
   color: #36393D;
 }
+
+.residence-title {
+  cursor: pointer;
+  font-size: large;
+  color: #36393D;  
+}

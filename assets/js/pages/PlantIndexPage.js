@@ -8,7 +8,6 @@ import PlantList from '../components/PlantList.js'
 import Spinner from '../components/Spinner.js'
 import Pagination from '../components/Pagination.js';
 
-
 const PAGE_SIZE = 100;
 
 const PlantIndexPage = () => {

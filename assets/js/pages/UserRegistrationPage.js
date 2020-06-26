@@ -18,21 +18,21 @@ const UserRegistrationPage = () => {
     setData({ ...data, [name]: value });
   }
 
-  function field(name) {
-    return <InputField name={name} value={data[name]} error={name in errors ? errors[name] : null} onChange={updateField} />
+  function renderField(label, name) {
+    return <InputField label={label} name={name} value={data[name]} error={name in errors ? errors[name] : null} onChange={updateField} />
   }
 
   function onClick() {
     setErrors({});
-    createNewUser(data, dispatch,  (err) => SetErrors(err));
+    createNewUser(data, dispatch,  (err) => setErrors(err));
   }
 
   return (
     <div>
-      {field('name')}
-      {field('user_name')}
-      {field('email')}
-      {field('password')}
+      {renderField('Name', 'name')}
+      {renderField('Username', 'user_name')}
+      {renderField('E-mail', 'email')}
+      {renderField('Password', 'password')}
       <Button variant="primary" onClick={onClick}>Submit</Button>
     </div>
   );

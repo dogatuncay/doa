@@ -1,6 +1,24 @@
 import { combineReducers } from 'redux'
-import { LOAD_PLANTS, LOAD_PLANTS_ALPHABETICALLY, LOAD_PLANTS_SEARCH } from '../actions/plantActions.js'
-import { LOAD_USERS, LOAD_CURRENT_USER, REMOVE_CURRENT_USER } from '../actions/userActions.js'
+import { 
+  LOAD_PLANTS, 
+  LOAD_PLANTS_ALPHABETICALLY, 
+  LOAD_PLANTS_SEARCH 
+} from '../actions/plantActions.js'
+import { 
+  LOAD_USERS, 
+  LOAD_CURRENT_USER, 
+  REMOVE_CURRENT_USER 
+} from '../actions/userActions.js'
+import {
+  LOAD_RESIDENCES,
+  RELOAD_RESIDENCE,
+  REMOVE_RESIDENCE
+} from '../actions/residenceActions.js'
+import {
+  LOAD_PLANT_INSTANCES,
+  RELOAD_PLANT_INSTANCE,
+  REMOVE_PLANT_INSTANCE
+} from '../actions/plantInstanceActions.js'
 
 function plants(state = {}, action) {
   const newState = {...state};
@@ -71,12 +89,52 @@ function currentUser(state = null, action) {
   }
 }
 
+function residences(state = {}, action) {
+  let newState = {...state};
+  switch (action.type) {
+    case LOAD_RESIDENCES:
+      action.residenceData.forEach((residence) => newState[residence.id] = residence);
+      return newState;
+    case RELOAD_RESIDENCE:
+      return {
+        ...state,
+        [action.newResidenceData.id]: action.newResidenceData
+      }
+    case REMOVE_RESIDENCE:
+      delete newState[action.id];
+      return newState;
+    default:
+      return state;
+  }
+}
+
+function plantInstances(state = {}, action) {
+  const newState = {...state};
+  switch(action.type) {
+    case LOAD_PLANT_INSTANCES:
+      action.plantInstances.forEach((plantInstance) => newState[plantInstance.id] = plantInstance);
+      return newState;
+      case RELOAD_PLANT_INSTANCE:
+        return {
+          ...state,
+          [action.newPlantInstanceData.id]: action.newPlantInstanceData
+        }
+      case REMOVE_PLANT_INSTANCE:
+        delete newState[action.id];
+        return newState;
+    default:
+      return state;
+  }
+}
+
 const reducers = combineReducers({
   plants,
   plantsAlphabetically,
   plantsSearch,
   users,
-  currentUser
+  currentUser,
+  residences,
+  plantInstances
 })
 
 export default reducers;

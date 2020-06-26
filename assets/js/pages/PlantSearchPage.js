@@ -6,6 +6,7 @@ import mapRange from '../helpers/mapRange.js';
 import { searchPlant } from '../api/plant.js';
 import PlantList from '../components/PlantList.js'
 import Pagination from '../components/Pagination.js';
+import Spinner from '../components/Spinner.js'
 
 const PAGE_SIZE = 100;
 

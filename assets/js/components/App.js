@@ -7,13 +7,16 @@ import {
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
+import NavigationBar from '../components/NavigationBar';
 import PlantIndexPage from '../pages/PlantIndexPage.js';
 import PlantPage from '../pages/PlantPage.js';
 import PlantSearchPage from '../pages/PlantSearchPage.js';
 import UserRegistrationPage from '../pages/UserRegistrationPage.js';
 import UserProfilePage from '../pages/UserProfilePage.js';
 import SignInPage from '../pages/SignInPage';
-import NavigationBar from '../components/NavigationBar';
+import ResidenceIndexPage from '../pages/ResidenceIndexPage';
+import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage';
+import ChangePasswordPage from '../pages/ChangePasswordPage';
 
 export default function App() {
   return (
@@ -22,9 +25,6 @@ export default function App() {
         <div>
           <NavigationBar />
           {/* <Link to='/plant_index_page'>Plant List</Link> */}
-          <div>
-            Hosgeldiniz bebegim iyi dikmeler
-          </div>
 
           <Switch> 
             <Route path='/plant_index_page'>
@@ -44,6 +44,15 @@ export default function App() {
             </Route>
             <Route path='/sign_in_page'>
               <SignInPage />
+            </Route>
+            <Route path='/residences/:residence_id/plants'>
+              <PlantInstanceIndexPage />
+            </Route>
+            <Route path='/residences'>
+              <ResidenceIndexPage />
+            </Route>
+            <Route path='/change_password_page'>
+              <ChangePasswordPage />
             </Route>
           </Switch>
 

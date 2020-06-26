@@ -57,7 +57,7 @@ defmodule Doa.Seeds do
   end
 end
 
-File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/data.csv")
+File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/data/plants.csv")
   |> Stream.drop(1)
   |> CSV.decode(headers:
     [:accepted_symbol,
@@ -90,7 +90,7 @@ File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/data.csv")
     :min_temperature])
   |> Enum.each(&Doa.Seeds.store_plants/1)
 
-File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/states.csv")
+File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/data/states.csv")
   |> Stream.drop(1)
   |> CSV.decode(headers: [:state, :stateAbbreviation])
   |> Enum.each(&Doa.Seeds.store_states/1)

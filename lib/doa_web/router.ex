@@ -35,11 +35,24 @@ defmodule DoaWeb.Router do
 
   scope "/api", DoaWeb.Api do
     pipe_through [:api, :auth]
+
     get "/sessions", SessionController, :get
     delete "/sessions", SessionController, :delete
-    post "/user/edit", UserController, :edit
-  end
 
+    post "/user/edit", UserController, :edit
+    post "/user/change_password", UserController, :change_password
+
+    get "/residences", ResidenceController, :get
+    post "/residences", ResidenceController, :new
+    put "/residences/:id", ResidenceController, :update
+    delete "/residences/:id", ResidenceController, :delete
+
+    get "/user/residences/:residence_id/plants", PlantInstanceController, :get_by_residence
+    get "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :get_by_id
+    post "/user/residences/:residence_id/plants", PlantInstanceController, :new
+    put "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :update
+    delete "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :delete
+  end
 
   scope "/", DoaWeb do
     pipe_through :browser

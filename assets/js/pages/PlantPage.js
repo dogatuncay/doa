@@ -1,9 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import fetchAPIGet from '../fetchAPIGet.js';
-import {loadPlants} from '../actions/plantActions.js';
 import Spinner from '../components/Spinner.js'
+import { getPlant } from '../api/plant.js';
 
 const PlantPage = () => {
   const dispatch = useDispatch();
@@ -11,18 +10,8 @@ const PlantPage = () => {
   const plant = useSelector((state) => state.plants[id]);
 
   useEffect(() => {
-    if(!plant) getPlant();
+    if(!plant) getPlant(dispatch, (err) => console.error(err));
   }, [id, plant]);
-
-  function getPlant() {
-    fetchAPIGet(`/api/plants/${id}`, 'GET')
-    .then((response) => {
-      dispatch(loadPlants([response.result.plant]));
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-  }
 
   function showInfo(infoLabel, info) {
     if(info !== null && info !== '')

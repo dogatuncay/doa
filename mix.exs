@@ -45,7 +45,8 @@ defmodule Doa.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:csv, "~> 1.2.3"},
       {:comeonin, "~> 2.4"},
-      {:guardian, "~> 0.10.0"}
+      {:guardian, "~> 0.10.0"},
+      {:ecto_enum, "~> 1.4"}
     ]
   end
 

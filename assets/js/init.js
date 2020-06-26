@@ -4,10 +4,11 @@ import {createStore} from 'redux';
 import {Provider} from 'react-redux'
 import App from './components/App.js';
 import reducers from './reducers/reducers'
-export default function init() {
+import { composeWithDevTools } from 'redux-devtools-extension';
 
+export default function init() {
   const rootElement = document.getElementById('root');
-  const store = createStore(reducers, {});
+  const store = createStore(reducers, composeWithDevTools());
   render(
     <Provider store={store}>
       <App />

@@ -9,14 +9,21 @@ defmodule Doa.Main.User do
     field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    has_many :residences, Doa.Main.Residence
+    has_many :plant_instances, Doa.Main.PlantInstance
 
     timestamps()
   end
 
   def registration_changeset(user, params) do
-    fields = [:password]
     user
     |> changeset(params)
+    |> password_changeset(params)
+  end
+
+  def password_changeset(user, params) do
+    fields = [:password]
+    user
     |> cast(params, fields)
     |> validate_required(fields)
     |> validate_length(:password, min: 6)

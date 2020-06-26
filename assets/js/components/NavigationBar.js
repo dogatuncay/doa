@@ -5,7 +5,7 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { getCurrentUser, signOut } from '../api/user.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHome, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHome, faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,7 @@ const NavigationBar = () => {
     userDropdown = (
       <>
         <NavDropdown.Item href="/user_profile_page">My profile</NavDropdown.Item>
+        <NavDropdown.Item href="/residences">My residences</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/" onClick={onClick}>Sign Out</NavDropdown.Item>
       </>
@@ -48,6 +49,10 @@ const NavigationBar = () => {
       <Nav className="mr-auto">
         <Nav.Link href="/"><FontAwesomeIcon icon={faHome} /></Nav.Link>
         <Nav.Link href="/"><FontAwesomeIcon icon={faBell} /></Nav.Link>
+        <NavDropdown id="basic-nav-dropdown" title={<FontAwesomeIcon icon={faSearch}/>}>
+            <NavDropdown.Item href="/plant_search_page">Plant Search</NavDropdown.Item>
+            <NavDropdown.Item href="/plant_index_page">Plant Index</NavDropdown.Item>
+        </NavDropdown>
         <NavDropdown
           id="basic-nav-dropdown" 
           title={<FontAwesomeIcon icon={faUser}/>}>
