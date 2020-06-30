@@ -30,13 +30,13 @@ const NewResidence = ({saveResidence, cancelResidence}) => {
         label='Title'
         name='title' 
         value={data['title']} 
-        error={'title' in errors ? errors['title'] : null} 
+        errors={'title' in errors ? errors['title'] : null} 
         onChange={updateField} />
       <InputField 
         label='Zipcode'
         name='zipcode' 
         value={data['zipcode']} 
-        error={'zipcode' in errors ? errors['zipcode'] : null} 
+        errors={'zipcode' in errors ? errors['zipcode'] : null} 
         onChange={updateField} />
       <FontAwesomeIcon icon={faCheck} onClick={() => save()}/>
       <FontAwesomeIcon icon={faWindowClose} onClick={() => cancel()}/>

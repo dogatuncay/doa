@@ -2,8 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
@@ -14,9 +13,10 @@ import PlantSearchPage from '../pages/PlantSearchPage.js';
 import UserRegistrationPage from '../pages/UserRegistrationPage.js';
 import UserProfilePage from '../pages/UserProfilePage.js';
 import SignInPage from '../pages/SignInPage';
+import ChangePasswordPage from '../pages/ChangePasswordPage';
 import ResidenceIndexPage from '../pages/ResidenceIndexPage';
 import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage';
-import ChangePasswordPage from '../pages/ChangePasswordPage';
+import StoryIndexPage from '../pages/StoryIndexPage';
 
 export default function App() {
   return (
@@ -50,6 +50,9 @@ export default function App() {
             </Route>
             <Route path='/residences'>
               <ResidenceIndexPage />
+            </Route>
+            <Route path='/stories'>
+              <StoryIndexPage />
             </Route>
             <Route path='/change_password_page'>
               <ChangePasswordPage />

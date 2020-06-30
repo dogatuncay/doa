@@ -27,6 +27,7 @@ const NavigationBar = () => {
       <>
         <NavDropdown.Item href="/user_profile_page">My profile</NavDropdown.Item>
         <NavDropdown.Item href="/residences">My residences</NavDropdown.Item>
+        <NavDropdown.Item href="/stories">My stories</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/" onClick={onClick}>Sign Out</NavDropdown.Item>
       </>

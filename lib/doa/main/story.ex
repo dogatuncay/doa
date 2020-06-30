@@ -15,8 +15,8 @@ defmodule Doa.Main.Story do
     story
     |> cast(attrs, [:title, :body])
     |> validate_length(:title, min: 1, max: 40)
-    # |> validate_format(:zipcode, ~r/^[0-9]{5}(?:-[0-9]{4})?$/, message: "Invalid zipcode")
-    |> validate_required([:title])
+    |> validate_length(:body, min: 140, max: 100000)
+    |> validate_required([:title, :body])
   end
 
 end

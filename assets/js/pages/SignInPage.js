@@ -19,22 +19,25 @@ const SignInPage = () => {
     setData({ ...data, [name]: value });
   }
 
-  function field(name) {
-    return <InputField name={name} value={data[name]} error={errors && name in errors ? errors[name] : null} onChange={updateField} />
+  function renderField(label, name) {
+    return <InputField label={label} name={name} value={data[name]} errors={errors && name in errors ? errors[name] : []} onChange={updateField} />
   }
 
   function onClick() {
     setErrors({});
-    signIn(data, dispatch, (err) => setErrors(err))
-    .then(() => {
-      history.push('/');
-    })
+    signIn(data, dispatch)    
+    .then(() => history.push('/'))
+    .catch((err) => setErrors(err));
   }
+
+  const errorText = errors && errors.message ? errors.message : '';
+  const error = (<div className="alert alert-danger">{errorText}</div>);
 
   return (
     <div>
-      {field('email')}
-      {field('password')}
+      {renderField('E-mail', 'email')}
+      {renderField('Password', 'password')}
+      {error}
       <Button variant="primary" onClick={onClick}>Sign In</Button>
     </div>
   );

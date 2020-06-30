@@ -1,6 +1,6 @@
-defmodule DoaWeb.Api.ResidenceController do
+defmodule DoaWeb.Api.StoryController do
   use DoaWeb, :controller
-  alias Doa.Main.Residence
+  alias Doa.Main.Story
   alias Doa.Repo
   require IEx
   # import Ecto.Query, only: [from: 2]
@@ -9,27 +9,27 @@ defmodule DoaWeb.Api.ResidenceController do
 
   def get(conn, _) do
     user = Guardian.Plug.current_resource(conn)
-    residences = Repo.all(Ecto.assoc(user, :residences))
-    render(conn, "ok.json", %{result: %{residences: residences}})
+    stories = Repo.all(Ecto.assoc(user, :stories))
+    render(conn, "ok.json", %{result: %{stories: stories}})
   end
-  def new(conn, %{"residence" => params}) do
+  def new(conn, %{"story" => params}) do
     changeset =
       Guardian.Plug.current_resource(conn)
-      |> Ecto.build_assoc(:residences)
-      |> Residence.changeset(params)
+      |> Ecto.build_assoc(:stories)
+      |> Story.changeset(params)
 
     case Repo.insert(changeset) do
-      {:ok, created_residence} ->
-        render(conn, "ok.json", result: created_residence)
+      {:ok, created_story} ->
+        render(conn, "ok.json", result: created_story)
       {:error, %Ecto.Changeset{} = changeset} ->
         conn
         |> render("changeset_errors.json", errors: changeset.errors)
     end
   end
 
-  def update(conn, %{"id" => id, "residence" => params}) do
-    residence = Repo.get!(Residence, id)
-    case Residence.changeset(residence, params) |> Repo.update do
+  def update(conn, %{"id" => id, "story" => params}) do
+    story = Repo.get!(Story, id)
+    case Story.changeset(story, params) |> Repo.update do
       {:ok, _} ->
         render(conn, "ok.json")
       {:error, changeset} ->
@@ -39,8 +39,8 @@ defmodule DoaWeb.Api.ResidenceController do
   end
 
   def delete(conn, %{"id" => id}) do
-    residence = Repo.get!(Residence, id)
-    case Residence.delete_residence_w_plants(residence) do
+    story = Repo.get!(Story, id)
+    case story.delete(story) do
       {:ok, _} ->
         render(conn, "ok.json")
       {:error, changeset} ->

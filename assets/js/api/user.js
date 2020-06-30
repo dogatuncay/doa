@@ -25,12 +25,11 @@ export function signOut(id, dispatch, onError) {
     .catch((err) => onError(err.errors));
 }
 
-export function signIn(data, dispatch, onError) {
+export function signIn(data, dispatch) {
   return apiRequest('/api/sessions', 'POST', {session: data})
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
-    })
-    .catch((err) => onError(err.errors));
+    });
 }
 
 export function changePassword(data, onError) {

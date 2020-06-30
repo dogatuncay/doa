@@ -70,8 +70,6 @@ const ResidenceIndexPage = () => {
   else {
     return ( 
       <div className='residence-icons'>
-        <div>MY RESIDENCES</div>
-        <br/>
         {residenceEntries}
         {newResidenceElement}
       </div>

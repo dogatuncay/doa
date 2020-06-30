@@ -52,6 +52,11 @@ defmodule DoaWeb.Router do
     post "/user/residences/:residence_id/plants", PlantInstanceController, :new
     put "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :update
     delete "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :delete
+
+    get "/stories", StoryController, :get
+    post "/stories", StoryController, :new
+    put "/stories/:id", StoryController, :update
+    delete "/stories/:id", StoryController, :delete
   end
 
   scope "/", DoaWeb do

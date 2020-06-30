@@ -2,9 +2,12 @@ import React from 'react';
 import renderTemplate from '../helpers/renderTemplate.js';
 
 const InputField = ({label, name, value, errors, onChange}) => {
-  const errMessage = errors.map((err) => (
-    <div style={{color: 'red'}}>{`${renderTemplate(err.message, err.context)}`}</div>
-  ));
+  // const errMessage = errors.map((err) => {
+  //   const errStr = typeof(err) === 'string' ? err : renderTemplate(err.errors.message, err.errors.context);
+  //   return <div style={{color: 'red'}}>{`${errStr}`}</div>
+  // });
+  const errStr = typeof(errors) === 'string' ? errors : renderTemplate(errors.message, errors.context);
+  const errMessage = (<div style={{color: 'red'}}>{`${errStr}`}</div>);
 
   return (
     <>

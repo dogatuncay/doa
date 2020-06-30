@@ -31,7 +31,6 @@ export function updateResidence(oldResidence, newResidence, dispatch, onError) {
   if(oldResidence.id !== newResidence.id) throw new Error('todo');
   if(oldResidence !== newResidence) {
     const changedFields = compareObjects(oldResidence, newResidence);
-    console.log(changedFields);
     const residence = filterObjectByKey(newResidence, changedFields);
     return apiRequest(`/api/residences/${newResidence.id}`, 'PUT', {residence})
     .then((_) => { 

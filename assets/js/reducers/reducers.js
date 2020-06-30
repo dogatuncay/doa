@@ -19,6 +19,11 @@ import {
   RELOAD_PLANT_INSTANCE,
   REMOVE_PLANT_INSTANCE
 } from '../actions/plantInstanceActions.js'
+import {
+  LOAD_STORIES,
+  RELOAD_STORY,
+  REMOVE_STORY
+} from '../actions/storyActions.js'
 
 function plants(state = {}, action) {
   const newState = {...state};
@@ -127,6 +132,25 @@ function plantInstances(state = {}, action) {
   }
 }
 
+function stories(state = {}, action) {
+  let newState = {...state};
+  switch (action.type) {
+    case LOAD_STORIES:
+      action.storyData.forEach((story) => newState[story.id] = story);
+      return newState;
+    case RELOAD_STORY:
+      return {
+        ...state,
+        [action.newStoryData.id]: action.newStoryData
+      }
+    case REMOVE_STORY:
+      delete newState[action.id];
+      return newState;
+    default:
+      return state;
+  }
+}
+
 const reducers = combineReducers({
   plants,
   plantsAlphabetically,
@@ -134,7 +158,8 @@ const reducers = combineReducers({
   users,
   currentUser,
   residences,
-  plantInstances
+  plantInstances,
+  stories
 })
 
 export default reducers;

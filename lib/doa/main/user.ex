@@ -11,6 +11,7 @@ defmodule Doa.Main.User do
     field :password_hash, :string
     has_many :residences, Doa.Main.Residence
     has_many :plant_instances, Doa.Main.PlantInstance
+    has_many :stories, Doa.Main.Story
 
     timestamps()
   end
