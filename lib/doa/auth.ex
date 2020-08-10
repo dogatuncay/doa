@@ -14,6 +14,7 @@ defmodule Doa.Auth do
   def login_by_email_and_pass(conn, email, given_pass, opts) do
     repo = Keyword.fetch!(opts, :repo)
     user = repo.get_by(Doa.Main.User, email: email)
+    # IO.puts "#{inspect given_pass} vs #{inspect user.password_hash}"
     cond do
       user && checkpw(given_pass, user.password_hash) ->
         {:ok, login(conn, user)}

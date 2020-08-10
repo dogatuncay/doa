@@ -2,14 +2,14 @@ defmodule DoaWeb.Api.SessionController do
   use DoaWeb, :controller
   plug :put_view, DoaWeb.ApiView
 
-  def create(conn, %{"session" => %{"email" => email, "password" => pass}}) do
-      case Doa.Auth.login_by_email_and_pass(conn, email, pass, repo: Doa.Repo) do
-        {:ok, conn} ->
-            logged_in_user = Guardian.Plug.current_resource(conn)
-            render(conn, "ok.json", %{result: logged_in_user})
-        {:error, _reason, conn} ->
-          render(conn, "error.json", %{message: "Wrong username/password"})
-      end
+  def create(conn, %{"session" => %{"email" => email, "password" => pass}}) when is_binary(email) and is_binary(pass) do
+    case Doa.Auth.login_by_email_and_pass(conn, email, pass, repo: Doa.Repo) do
+      {:ok, conn} ->
+          logged_in_user = Guardian.Plug.current_resource(conn)
+          render(conn, "ok.json", %{result: logged_in_user})
+      {:error, _reason, conn} ->
+        render(conn, "error.json", %{message: "Wrong username/password"})
+    end
   end
 
   def get(conn, _) do

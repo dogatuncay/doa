@@ -69,7 +69,9 @@ defmodule Doa.Main.Plant do
     :salinity_tolerance,
     :shade_tolerance,
     :min_temperature])
-    # |> validate_required([:accepted_symbol, :synonym_symbol, :scientific_name, :common_name, :plants_floristic_area, :state_and_province, :fact_sheets, :plant_guides, :characteristics_data, :adapted_to_coarse_soil, :adapted_to_medium_soil, :adapted_to_fine_soil, :anaerobic_tolerance, :calcium_carbonate_tolerance, :" "])
+    |> validate_required(
+      [:accepted_symbol,
+      :scientific_name])
   end
 
   def search(filter, query \\ __MODULE__) do

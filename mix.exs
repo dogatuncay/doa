@@ -46,7 +46,8 @@ defmodule Doa.MixProject do
       {:csv, "~> 1.2.3"},
       {:comeonin, "~> 2.4"},
       {:guardian, "~> 0.10.0"},
-      {:ecto_enum, "~> 1.4"}
+      {:ecto_enum, "~> 1.4"},
+      {:faker, "~> 0.13"}
     ]
   end
 

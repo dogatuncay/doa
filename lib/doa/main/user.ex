@@ -1,8 +1,9 @@
 defmodule Doa.Main.User do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
 
-  @derive {Jason.Encoder, only: [:id, :name, :user_name, :email]}
+  @derive {Jason.Encoder, only: [:id, :name, :user_name]}
   schema "users" do
     field :name, :string
     field :user_name, :string
@@ -12,7 +13,10 @@ defmodule Doa.Main.User do
     has_many :residences, Doa.Main.Residence
     has_many :plant_instances, Doa.Main.PlantInstance
     has_many :stories, Doa.Main.Story
-
+    many_to_many :followers, __MODULE__, join_through: Doa.Main.Follow,
+      join_keys: [followee_id: :id, follower_id: :id], on_replace: :delete
+    many_to_many :followees, __MODULE__, join_through: Doa.Main.Follow,
+      join_keys: [follower_id: :id, followee_id: :id], on_replace: :delete
     timestamps()
   end
 
@@ -41,8 +45,10 @@ defmodule Doa.Main.User do
     |> cast(params, fields)
     |> validate_required(fields)
     |> validate_format(:email, ~r/@/)
+    |> validate_length(:name, min: 5)
     |> validate_length(:user_name, min: 6, max: 20)
-    |> unique_constraint([:email, :user_name])
+    |> unique_constraint([:email])
+    |> unique_constraint([:user_name])
   end
 
   defp put_password_hash(changeset) do
@@ -51,5 +57,12 @@ defmodule Doa.Main.User do
         put_change(changeset, :password_hash, Comeonin.Bcrypt.hashpwsalt(pass))
       _ -> changeset
     end
+  end
+
+  # \\\\\\ -> \\\1 -> "\#{match[1]}""
+  def search(filter, query \\ __MODULE__) do
+    escaped_filter = Regex.replace(~r/([\%])/, filter,  "\\\\\\1", global: true)
+    pattern = "%#{escaped_filter}%"
+    from u in query, where: ilike(u.user_name, ^pattern) or ilike(u.name, ^pattern)
   end
 end

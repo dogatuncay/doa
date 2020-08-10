@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useQueryParam, NumberParam, StringParam, withDefault } from 'use-query-params';
 import { useHistory } from "react-router-dom";
 import mapRange from '../helpers/mapRange.js';
-import { searchPlant } from '../api/plant.js';
-import PlantList from '../components/PlantList.js'
+import { searchUser } from '../api/user.js';
+import UserList from '../components/UserList.js';
 import Pagination from '../components/Pagination.js';
 import Spinner from '../components/Spinner.js'
 
 const PAGE_SIZE = 100;
 
-const PlantSearchPage = () => {
+const UserSearchPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -19,15 +19,16 @@ const PlantSearchPage = () => {
   const [searchText, setSearchText] = useState(submittedSearch || '');
   const [activeRequest, setActiveRequest] = useState(false);
 
-  const plants = useSelector((state) => state.plants);
-  const plantsSearchIndex = useSelector((state) => state.plantsSearch.index);
-  const numOfPages = useSelector((state) => Math.ceil(state.plantsSearch.count / PAGE_SIZE));
+  const users = useSelector((state) => state.users);
+  const userSearchIndex = useSelector((state) => state.userSearch.index);
+  const numOfPages = useSelector((state) => Math.ceil(state.userSearch.count / PAGE_SIZE));
 
   useEffect(() => {
     if(submittedSearch) {
       setActiveRequest(true);
-      searchPlant(searchText, PAGE_SIZE, PAGE_SIZE*(page-1), dispatch, (err) => console.error(err))
-      .then(() => setActiveRequest(false));
+      searchUser(searchText, PAGE_SIZE, PAGE_SIZE*(page-1), dispatch)
+      .then(() => setActiveRequest(false))
+      .catch((err) => console.error(err));
     }
   }, [submittedSearch, page]);
 
@@ -42,15 +43,16 @@ const PlantSearchPage = () => {
     setSearchText(e.target.value);
   }
 
-  function onClick(plant) {
-    history.push(`/plants/${plant.id}`);
+  function onClick(user) {
+    history.push(`/user/${user.id}`);
   }
 
-  const plantIds = mapRange(PAGE_SIZE*(page-1), PAGE_SIZE*page, (i) => plantsSearchIndex[i]);
-  const plantsOnPage = plantIds.map((id) => plants[id]).filter((x) => x);
+  const userIds = mapRange(PAGE_SIZE*(page-1), PAGE_SIZE*page, (i) => userSearchIndex[i]);
+  const usersOnPage = userIds.map((id) => users[id]).filter((x) => x);
+
   const searchElements = (    
     <div>
-      <div>Plant Search Page</div>
+      <div>User Search Page</div>
       <input 
         type="text" 
         onChange={updateSearchText} 
@@ -71,8 +73,8 @@ const PlantSearchPage = () => {
     return (
       <div>
         {searchElements}
-        <div className="plant-index">
-          <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />
+        <div className="user-index">
+          <UserList data={usersOnPage} onClick={(user) => onClick(user)} />
           <Pagination page={page} maxPages={numOfPages} onChange={setPage} />
         </div>
       </div>
@@ -80,4 +82,4 @@ const PlantSearchPage = () => {
   }
 }
 
-export default PlantSearchPage;
+export default UserSearchPage;

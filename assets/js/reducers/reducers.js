@@ -7,7 +7,9 @@ import {
 import { 
   LOAD_USERS, 
   LOAD_CURRENT_USER, 
-  REMOVE_CURRENT_USER 
+  REMOVE_CURRENT_USER,
+  LOAD_USER_SEARCH, 
+  SET_FOLLOW_STATUS
 } from '../actions/userActions.js'
 import {
   LOAD_RESIDENCES,
@@ -54,7 +56,7 @@ function plantsSearch(state = {index: {}, count: 0, lastSearchTerm: null}, actio
   const newState = {...state};
   switch(action.type) {
     case LOAD_PLANTS_SEARCH:
-      if(action.searchTerm !== newState.searchTerm) newState.index = {};
+      if(action.searchTerm !== newState.lastSearchTerm) newState.index = {};
       action.plants.forEach((plant, i) => newState.index[action.offset + i] = plant.id);
       newState.count = action.count;
       newState.lastSearchTerm = action.searchTerm;
@@ -70,14 +72,32 @@ function users(state = {}, action) {
     users.forEach((user) => newState[user.id] = user);
     return newState;
   }
-  
   switch(action.type) {
     case LOAD_USERS:
+    case LOAD_USER_SEARCH:
       return loadUsers(action.users);
     case LOAD_CURRENT_USER:
       return loadUsers([action.user]);
     case REMOVE_CURRENT_USER:
       return state.filter((user) => user.id !== action.userId);
+    case SET_FOLLOW_STATUS: //todo
+      const newState = {...state};
+      newState[action.userId] = {...newState[action.userId], am_following: action.amFollowing}
+      return newState;
+    default:
+      return state;
+  }
+}
+
+function userSearch(state = {index: {}, count: 0, lastSearchTerm: null}, action) {
+  const newState = {...state};
+  switch(action.type) {
+    case LOAD_USER_SEARCH:
+      if(action.searchTerm !== newState.lastSearchTerm) newState.index = {};
+      action.users.forEach((user, i) => newState.index[action.offset + i] = user.id);
+      newState.count = action.count;
+      newState.lastSearchTerm = action.searchTerm;
+      return newState;
     default:
       return state;
   }
@@ -156,6 +176,7 @@ const reducers = combineReducers({
   plantsAlphabetically,
   plantsSearch,
   users,
+  userSearch,
   currentUser,
   residences,
   plantInstances,

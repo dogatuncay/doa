@@ -2,8 +2,6 @@ defmodule DoaWeb.Api.ResidenceController do
   use DoaWeb, :controller
   alias Doa.Main.Residence
   alias Doa.Repo
-  require IEx
-  # import Ecto.Query, only: [from: 2]
 
   plug :put_view, DoaWeb.ApiView
 

@@ -1,88 +1,69 @@
 defmodule DoaWeb.PlantControllerTest do
   use DoaWeb.ConnCase
-
   alias Doa.Main
 
-  @create_attrs %{" ": "some  ", accepted_symbol: "some accepted_symbol", adapted_to_coarse_soil: "some adapted_to_coarse_soil", adapted_to_fine_soil: "some adapted_to_fine_soil", adapted_to_medium_soil: "some adapted_to_medium_soil", anaerobic_tolerance: "some anaerobic_tolerance", calcium_carbonate_tolerance: "some calcium_carbonate_tolerance", characteristics_data: "some characteristics_data", common_name: "some common_name", fact_sheets: "some fact_sheets", plant_guides: "some plant_guides", plants_floristic_area: "some plants_floristic_area", scientific_name: "some scientific_name", state_and_province: "some state_and_province", synonym_symbol: "some synonym_symbol"}
-  @update_attrs %{" ": "some updated  ", accepted_symbol: "some updated accepted_symbol", adapted_to_coarse_soil: "some updated adapted_to_coarse_soil", adapted_to_fine_soil: "some updated adapted_to_fine_soil", adapted_to_medium_soil: "some updated adapted_to_medium_soil", anaerobic_tolerance: "some updated anaerobic_tolerance", calcium_carbonate_tolerance: "some updated calcium_carbonate_tolerance", characteristics_data: "some updated characteristics_data", common_name: "some updated common_name", fact_sheets: "some updated fact_sheets", plant_guides: "some updated plant_guides", plants_floristic_area: "some updated plants_floristic_area", scientific_name: "some updated scientific_name", state_and_province: "some updated state_and_province", synonym_symbol: "some updated synonym_symbol"}
-  @invalid_attrs %{" ": nil, accepted_symbol: nil, adapted_to_coarse_soil: nil, adapted_to_fine_soil: nil, adapted_to_medium_soil: nil, anaerobic_tolerance: nil, calcium_carbonate_tolerance: nil, characteristics_data: nil, common_name: nil, fact_sheets: nil, plant_guides: nil, plants_floristic_area: nil, scientific_name: nil, state_and_province: nil, synonym_symbol: nil}
-
-  def fixture(:plant) do
-    {:ok, plant} = Main.create_plant(@create_attrs)
-    plant
-  end
+  @create_attrs %{
+    accepted_symbol: "some accepted_symbol",
+    adapted_to_coarse_soil: "some adapted_to_coarse_soil",
+    adapted_to_fine_soil: "some adapted_to_fine_soil",
+    adapted_to_medium_soil: "some adapted_to_medium_soil",
+    anaerobic_tolerance: "some anaerobic_tolerance",
+    calcium_carbonate_tolerance: "some calcium_carbonate_tolerance",
+    characteristics_data: "some characteristics_data",
+    common_name: "some common_name",
+    fact_sheets: "some fact_sheets",
+    plant_guides: "some plant_guides",
+    plants_floristic_area: "some plants_floristic_area",
+    scientific_name: "some scientific_name",
+    state_and_province: "some state_and_province",
+    synonym_symbol: "some synonym_symbol",
+    cold_stratification_required: "some cold_stratification_required",
+    drought_tolerance: "some drought_tolerance",
+    fertility_requirement: "some fertility_requirement",
+    min_frost_free_days: 0,
+    hedge_tolerance: "some hedge_tolerance",
+    moisture_use: "some moisture_use",
+    min_ph: 0.0,
+    max_ph: 0.0,
+    min_precipitation: 0,
+    max_precipitation: 0,
+    min_root_depth: 0,
+    salinity_tolerance: "some salinity_tolerance",
+    shade_tolerance: "some share_tolerance",
+    min_temperature: 0
+  }
 
   describe "index" do
     test "lists all plants", %{conn: conn} do
-      conn = get(conn, Routes.plant_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Plants"
+      conn = get(conn, Routes.plant_path(conn, :index, limit: 10, offset: 0))
+      assert json_response(conn, 200)["ok"]
+      assert json_response(conn, 200)["result"]["num_entries"] == 0
+      assert json_response(conn, 200)["result"]["plants"] == []
+
+      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      Doa.Repo.insert!(changeset)
+      conn = get(conn, Routes.plant_path(conn, :index, limit: 10, offset: 0))
+      assert json_response(conn, 200)["result"]["num_entries"] == 1
     end
   end
 
-  describe "new plant" do
-    test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.plant_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Plant"
+  describe "search" do
+    test "search a plant", %{conn: conn} do
+      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      Doa.Repo.insert!(changeset)
+      conn = post(conn, Routes.plant_path(conn, :search), filter: "some", limit: 10, offset: 0)
+      assert json_response(conn, 200)["result"]["num_entries"] == 1
+      conn = post(conn, Routes.plant_path(conn, :search), filter: "none", limit: 10, offset: 0)
+      assert json_response(conn, 200)["result"]["num_entries"] == 0
     end
   end
 
-  describe "create plant" do
-    test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.plant_path(conn, :create), plant: @create_attrs)
-
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.plant_path(conn, :show, id)
-
-      conn = get(conn, Routes.plant_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Plant"
+  describe "get" do
+    test "search a plant", %{conn: conn} do
+      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      {:ok, plant} = Doa.Repo.insert(changeset)
+      conn = get(conn, Routes.plant_path(conn, :get, plant.id))
+      assert json_response(conn, 200)
     end
-
-    test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.plant_path(conn, :create), plant: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Plant"
-    end
-  end
-
-  describe "edit plant" do
-    setup [:create_plant]
-
-    test "renders form for editing chosen plant", %{conn: conn, plant: plant} do
-      conn = get(conn, Routes.plant_path(conn, :edit, plant))
-      assert html_response(conn, 200) =~ "Edit Plant"
-    end
-  end
-
-  describe "update plant" do
-    setup [:create_plant]
-
-    test "redirects when data is valid", %{conn: conn, plant: plant} do
-      conn = put(conn, Routes.plant_path(conn, :update, plant), plant: @update_attrs)
-      assert redirected_to(conn) == Routes.plant_path(conn, :show, plant)
-
-      conn = get(conn, Routes.plant_path(conn, :show, plant))
-      assert html_response(conn, 200) =~ "some updated  "
-    end
-
-    test "renders errors when data is invalid", %{conn: conn, plant: plant} do
-      conn = put(conn, Routes.plant_path(conn, :update, plant), plant: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Plant"
-    end
-  end
-
-  describe "delete plant" do
-    setup [:create_plant]
-
-    test "deletes chosen plant", %{conn: conn, plant: plant} do
-      conn = delete(conn, Routes.plant_path(conn, :delete, plant))
-      assert redirected_to(conn) == Routes.plant_path(conn, :index)
-      assert_error_sent 404, fn ->
-        get(conn, Routes.plant_path(conn, :show, plant))
-      end
-    end
-  end
-
-  defp create_plant(_) do
-    plant = fixture(:plant)
-    {:ok, plant: plant}
   end
 end

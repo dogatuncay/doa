@@ -20,7 +20,7 @@ const SignInPage = () => {
   }
 
   function renderField(label, name) {
-    return <InputField label={label} name={name} value={data[name]} errors={errors && name in errors ? errors[name] : []} onChange={updateField} />
+    return <InputField label={label} name={name} value={data[name]} errors={errors && name in errors ? errors[name] : ''} onChange={updateField} />
   }
 
   function onClick() {

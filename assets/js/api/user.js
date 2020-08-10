@@ -1,5 +1,5 @@
 import apiRequest from './apiRequest.js';
-import { loadCurrentUser } from '../actions/userActions.js';
+import { loadCurrentUser, loadUserSearch, setFollowStatus } from '../actions/userActions.js';
 
 export function getCurrentUser(dispatch, onError) {
   return apiRequest(`/api/sessions`, 'GET')
@@ -9,12 +9,11 @@ export function getCurrentUser(dispatch, onError) {
     .catch(onError);
 }
 
-export function createNewUser(data, dispatch, onError) {
+export function createNewUser(data, dispatch) {
   return apiRequest('/api/user/new', 'POST', {user: data})
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
-    })
-    .catch((err) => onError(err.errors));
+    });
 }
 
 export function signOut(id, dispatch, onError) {
@@ -38,4 +37,25 @@ export function changePassword(data, onError) {
       console.log(response);
     })
     .catch((err) => onError(err.errors));
+}
+
+export function searchUser(searchText, limit, offset, dispatch) {
+  return apiRequest('/api/user/search', 'POST', {
+    filter: searchText,
+    limit,
+    offset
+  })
+  .then((response) => {
+    const {users: responseUsers, num_entries} = response.result;
+    const users = responseUsers.map(({user, am_following}) => ({ ...user, am_following }));
+    dispatch(loadUserSearch(users, searchText, offset, num_entries));
+    return response.result;
+  });
+}
+
+export function followUser(id, follow, dispatch) {
+  return apiRequest('/api/user', 'POST', {id, follow})
+    .then((_) => {
+      dispatch(setFollowStatus(id, follow));
+    });
 }

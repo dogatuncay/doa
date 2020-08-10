@@ -34,7 +34,6 @@ function loadPlantOptions(search, loadedOptions) {
 }
 
 // async function loadPlantOptions(search, loadedOptions) {
-//   console.log('loading plant options...');
 //
 //   let error = null;
 //   const onError = (err) => {
@@ -103,7 +102,7 @@ const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
         label='Note'
         name='note' 
         value={data['note']} 
-        error={'note' in errors ? errors['note'] : null} 
+        errors={'note' in errors ? errors['note'] : ''} 
         onChange={updateField} />
       Is Containerized?
       <FontAwesomeIcon icon={data.is_containerized ? faCheckSquare : faSquare} onClick={() => checkField('is_containerized')}/>
@@ -115,7 +114,8 @@ const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
       <FontAwesomeIcon icon={faWindowClose} onClick={() => cancel()}/>
     </div>
     );
-}
+};
+
 NewPlantInstance.propTypes = {
   savePlantInstance: PropTypes.func.isRequired,
   cancelPlantInstance: PropTypes.func.isRequired

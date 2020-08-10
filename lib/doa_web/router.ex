@@ -39,8 +39,9 @@ defmodule DoaWeb.Router do
     get "/sessions", SessionController, :get
     delete "/sessions", SessionController, :delete
 
-    post "/user/edit", UserController, :edit
-    post "/user/change_password", UserController, :change_password
+    post "/user", UserController, :follow
+    post "/user/search", UserController, :search
+    post "/user/change_password", UserController, :update   #TODO change_password -> update
 
     get "/residences", ResidenceController, :get
     post "/residences", ResidenceController, :new

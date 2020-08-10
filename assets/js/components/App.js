@@ -12,11 +12,12 @@ import PlantPage from '../pages/PlantPage.js';
 import PlantSearchPage from '../pages/PlantSearchPage.js';
 import UserRegistrationPage from '../pages/UserRegistrationPage.js';
 import UserProfilePage from '../pages/UserProfilePage.js';
-import SignInPage from '../pages/SignInPage';
-import ChangePasswordPage from '../pages/ChangePasswordPage';
-import ResidenceIndexPage from '../pages/ResidenceIndexPage';
-import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage';
-import StoryIndexPage from '../pages/StoryIndexPage';
+import SignInPage from '../pages/SignInPage.js';
+import ChangePasswordPage from '../pages/ChangePasswordPage.js';
+import ResidenceIndexPage from '../pages/ResidenceIndexPage.js';
+import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage.js';
+import StoryIndexPage from '../pages/StoryIndexPage.js';
+import UserSearchPage from '../pages/UserSearchPage.js';
 
 export default function App() {
   return (
@@ -56,6 +57,9 @@ export default function App() {
             </Route>
             <Route path='/change_password_page'>
               <ChangePasswordPage />
+            </Route>
+            <Route path='/user_search_page'>
+              <UserSearchPage />
             </Route>
           </Switch>
 

@@ -53,6 +53,7 @@ const NavigationBar = () => {
         <NavDropdown id="basic-nav-dropdown" title={<FontAwesomeIcon icon={faSearch}/>}>
             <NavDropdown.Item href="/plant_search_page">Plant Search</NavDropdown.Item>
             <NavDropdown.Item href="/plant_index_page">Plant Index</NavDropdown.Item>
+            <NavDropdown.Item href="/user_search_page">User Search</NavDropdown.Item>
         </NavDropdown>
         <NavDropdown
           id="basic-nav-dropdown" 
