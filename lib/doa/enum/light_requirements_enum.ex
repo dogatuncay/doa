@@ -4,5 +4,4 @@ defenum Doa.Enum.LightRequirementsEnum,
   bright: 1,
   light_shade: 2,
   partial_shade: 3,
-  full_shade: 4,
-  dense_shade: 5
+  full_shade: 4

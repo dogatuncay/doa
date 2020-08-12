@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { AsyncPaginate } from 'react-select-async-paginate';
+import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose, faCheck, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
 import InputField from '../components/InputField.js';
 import { searchPlant } from '../api/plant.js';
+
 
 const PLANT_OPTIONS_WIDTH = 20;
 
@@ -58,12 +60,20 @@ function loadPlantOptions(search, loadedOptions) {
 //   }
 // }
 
+
 const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
+  const light_requirement_options = [
+    {label: "Full Sun", value: 0},
+    {label: "Bright", value: 1},
+    {label: "Light Shade", value: 2},
+    {label: "Partial Shade", value: 3}, 
+    {label: "Full Shade", value: 4}
+  ];
   const [data, setData] = useState({
     note: '',
     is_containerized: false,
     is_indoor: false,
-    light_requirement: "full_sun"
+    light_requirement: null
   });
   const [plantSelection, setPlantSelection] = useState(null);
   const [errors, setErrors] = useState({});
@@ -104,6 +114,11 @@ const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
         value={data['note']} 
         errors={'note' in errors ? errors['note'] : ''} 
         onChange={updateField} />
+      <Select
+        className="dropdown-light-requirements"
+        options={light_requirement_options}
+        onChange={(option) => updateField('light_requirement', option['value'])}
+      />
       Is Containerized?
       <FontAwesomeIcon icon={data.is_containerized ? faCheckSquare : faSquare} onClick={() => checkField('is_containerized')}/>
       Is Indoor?

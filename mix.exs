@@ -47,7 +47,9 @@ defmodule Doa.MixProject do
       {:comeonin, "~> 2.4"},
       {:guardian, "~> 0.10.0"},
       {:ecto_enum, "~> 1.4"},
-      {:faker, "~> 0.13"}
+      {:faker, "~> 0.13"},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
     ]
   end
 

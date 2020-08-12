@@ -1,7 +1,7 @@
 defmodule Doa.GuardianSerializer do
   @behaviour Guardian.Serializer
   alias Doa.Repo
-  alias Doa.Main.User
+  alias Doa.User
 
   # def for_token(user = %User{}), do: "User:#{user.id}"
   def for_token(user = %User{}), do: {:ok, "User:#{user.id}"}

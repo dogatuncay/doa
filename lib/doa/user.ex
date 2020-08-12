@@ -1,7 +1,11 @@
-defmodule Doa.Main.User do
+defmodule Doa.User do
   use Ecto.Schema
   import Ecto.Changeset
   import Ecto.Query
+  alias Doa.Follow
+  alias Doa.Residence
+  alias Doa.PlantInstance
+  alias Doa.Story
 
   @derive {Jason.Encoder, only: [:id, :name, :user_name]}
   schema "users" do
@@ -10,20 +14,14 @@ defmodule Doa.Main.User do
     field :email, :string
     field :password, :string, virtual: true
     field :password_hash, :string
-    has_many :residences, Doa.Main.Residence
-    has_many :plant_instances, Doa.Main.PlantInstance
-    has_many :stories, Doa.Main.Story
-    many_to_many :followers, __MODULE__, join_through: Doa.Main.Follow,
+    has_many :residences, Residence
+    has_many :plant_instances, PlantInstance
+    has_many :stories, Story
+    many_to_many :followers, __MODULE__, join_through: Follow,
       join_keys: [followee_id: :id, follower_id: :id], on_replace: :delete
-    many_to_many :followees, __MODULE__, join_through: Doa.Main.Follow,
+    many_to_many :followees, __MODULE__, join_through: Follow,
       join_keys: [follower_id: :id, followee_id: :id], on_replace: :delete
     timestamps()
-  end
-
-  def registration_changeset(user, params) do
-    user
-    |> changeset(params)
-    |> password_changeset(params)
   end
 
   def password_changeset(user, params) do
@@ -34,12 +32,11 @@ defmodule Doa.Main.User do
     |> validate_length(:password, min: 6)
     |> validate_format(:password, ~r/[0-9]+/, message: "Password must contain a number")
     |> validate_format(:password, ~r/[a-z]+/, message: "Password must contain a lower-case letter")
-    # |> validate_format(:password, ~r/[A-Z]+/, message: "Password must contain an upper-case letter")
     |> validate_format(:password, ~r/[#\!\?&@\$%^&*\(\)]+/, message: "Password must contain a symbol")
     |> put_password_hash()
   end
 
-  def changeset(user, params \\ %{}) do
+  def registration_changeset(user, params \\ %{}) do
     fields = [:email, :name, :user_name]
     user
     |> cast(params, fields)
@@ -49,6 +46,7 @@ defmodule Doa.Main.User do
     |> validate_length(:user_name, min: 6, max: 20)
     |> unique_constraint([:email])
     |> unique_constraint([:user_name])
+    |> password_changeset(params)
   end
 
   defp put_password_hash(changeset) do
@@ -60,9 +58,17 @@ defmodule Doa.Main.User do
   end
 
   # \\\\\\ -> \\\1 -> "\#{match[1]}""
-  def search(filter, query \\ __MODULE__) do
+  def get_search_query(filter, query \\ __MODULE__) do
     escaped_filter = Regex.replace(~r/([\%])/, filter,  "\\\\\\1", global: true)
     pattern = "%#{escaped_filter}%"
     from u in query, where: ilike(u.user_name, ^pattern) or ilike(u.name, ^pattern)
+  end
+
+  def user_follow_query(query, user_id) do
+    from p in query,
+      left_join: f in subquery(from f in Follow,
+      where: f.follower_id == ^user_id),
+      on: f.followee_id == p.id,
+      select: %{user: p, am_following: not is_nil(f.follower_id)} #**
   end
 end

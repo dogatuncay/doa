@@ -1,14 +1,13 @@
+# TODO: same as story
 defmodule DoaWeb.Api.ResidenceController do
-  use DoaWeb, :controller
-  alias Doa.Main.Residence
+  use DoaWeb, :api_controller
+  alias Doa.Residence
   alias Doa.Repo
-
-  plug :put_view, DoaWeb.ApiView
 
   def get(conn, _) do
     user = Guardian.Plug.current_resource(conn)
     residences = Repo.all(Ecto.assoc(user, :residences))
-    render(conn, "ok.json", %{result: %{residences: residences}})
+    ok(conn, %{residences: residences})
   end
   def new(conn, %{"residence" => params}) do
     changeset =
@@ -18,10 +17,9 @@ defmodule DoaWeb.Api.ResidenceController do
 
     case Repo.insert(changeset) do
       {:ok, created_residence} ->
-        render(conn, "ok.json", result: created_residence)
+        ok(conn, created_residence)
       {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
 
@@ -29,10 +27,9 @@ defmodule DoaWeb.Api.ResidenceController do
     residence = Repo.get!(Residence, id)
     case Residence.changeset(residence, params) |> Repo.update do
       {:ok, _} ->
-        render(conn, "ok.json")
+        ok(conn)
       {:error, changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
 
@@ -40,10 +37,9 @@ defmodule DoaWeb.Api.ResidenceController do
     residence = Repo.get!(Residence, id)
     case Residence.delete_residence_w_plants(residence) do
       {:ok, _} ->
-        render(conn, "ok.json")
+        ok(conn)
       {:error, changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
 

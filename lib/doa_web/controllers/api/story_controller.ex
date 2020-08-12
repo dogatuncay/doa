@@ -1,18 +1,15 @@
 defmodule DoaWeb.Api.StoryController do
-  use DoaWeb, :controller
-  alias Doa.Main.Story
+  use DoaWeb, :api_controller
+  alias Doa.Story
   alias Doa.Repo
-  require IEx
-  # import Ecto.Query, only: [from: 2]
 
-  plug :put_view, DoaWeb.ApiView
-
-  def get(conn, _) do
+  def index(conn, _) do
     user = Guardian.Plug.current_resource(conn)
     stories = Repo.all(Ecto.assoc(user, :stories))
-    render(conn, "ok.json", %{result: %{stories: stories}})
+    ok(conn, %{stories: stories})
   end
-  def new(conn, %{"story" => params}) do
+
+  def create(conn, %{"story" => params}) do
     changeset =
       Guardian.Plug.current_resource(conn)
       |> Ecto.build_assoc(:stories)
@@ -20,33 +17,30 @@ defmodule DoaWeb.Api.StoryController do
 
     case Repo.insert(changeset) do
       {:ok, created_story} ->
-        render(conn, "ok.json", result: created_story)
+        ok(conn, created_story)
       {:error, %Ecto.Changeset{} = changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
 
+  #TODO Doa.Repo.update!(%Doa.Story{id: 166} |> Ecto.Changeset.change(%{:body => "asdfasdfasdfasdfasdafjkasfkjasfjkafsjkasjkasf"}))
   def update(conn, %{"id" => id, "story" => params}) do
     story = Repo.get!(Story, id)
     case Story.changeset(story, params) |> Repo.update do
       {:ok, _} ->
-        render(conn, "ok.json")
+        ok(conn)
       {:error, changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     story = Repo.get!(Story, id)
-    case story.delete(story) do
+    case Repo.delete(story) do
       {:ok, _} ->
-        render(conn, "ok.json")
+        ok(conn)
       {:error, changeset} ->
-        conn
-        |> render("changeset_errors.json", errors: changeset.errors)
+        error(conn, changeset.errors)
     end
   end
-
 end

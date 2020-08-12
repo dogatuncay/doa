@@ -40,7 +40,7 @@ defmodule DoaWeb.PlantControllerTest do
       assert json_response(conn, 200)["result"]["num_entries"] == 0
       assert json_response(conn, 200)["result"]["plants"] == []
 
-      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
       Doa.Repo.insert!(changeset)
       conn = get(conn, Routes.plant_path(conn, :index, limit: 10, offset: 0))
       assert json_response(conn, 200)["result"]["num_entries"] == 1
@@ -49,7 +49,7 @@ defmodule DoaWeb.PlantControllerTest do
 
   describe "search" do
     test "search a plant", %{conn: conn} do
-      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
       Doa.Repo.insert!(changeset)
       conn = post(conn, Routes.plant_path(conn, :search), filter: "some", limit: 10, offset: 0)
       assert json_response(conn, 200)["result"]["num_entries"] == 1
@@ -60,7 +60,7 @@ defmodule DoaWeb.PlantControllerTest do
 
   describe "get" do
     test "search a plant", %{conn: conn} do
-      changeset = Doa.Main.Plant.changeset(%Doa.Main.Plant{}, @create_attrs)
+      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
       {:ok, plant} = Doa.Repo.insert(changeset)
       conn = get(conn, Routes.plant_path(conn, :get, plant.id))
       assert json_response(conn, 200)

@@ -1,12 +1,11 @@
 defmodule DoaWeb.Router do
   use DoaWeb, :router
-  @derive {Jason.Encoder}
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug :accepts, ["json"]
     plug :fetch_session
-    plug :fetch_flash
-    plug :protect_from_forgery
+    plug :protect_from_forgery # probably don't need this
     plug :put_secure_browser_headers
   end
 
@@ -22,14 +21,12 @@ defmodule DoaWeb.Router do
     plug Guardian.Plug.LoadResource
   end
 
-  # Other scopes may use custom stacks.
   scope "/api", DoaWeb.Api do
     pipe_through :api
-    get "/plants", PlantController, :index
-    get "/plants/:id", PlantController, :get
+    resources "/plants", PlantController, only: [:index, :show]
     post "/plants/search", PlantController, :search
 
-    post "/user/new", UserController, :new
+    post "/user/new", UserController, :create
     post "/sessions", SessionController, :create
   end
 
@@ -54,10 +51,7 @@ defmodule DoaWeb.Router do
     put "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :update
     delete "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :delete
 
-    get "/stories", StoryController, :get
-    post "/stories", StoryController, :new
-    put "/stories/:id", StoryController, :update
-    delete "/stories/:id", StoryController, :delete
+    resources "/stories", StoryController, only: [:index, :create, :update, :delete]
   end
 
   scope "/", DoaWeb do

@@ -51,7 +51,7 @@ defmodule DoaWeb.UserControllerTest do
       # {:ok, token, _} = Guardian.encode_and_sign(user, :access, %{})
       # conn = put_req_header(conn, "authorization", "Bearer:" <> token)
 
-      user = Doa.Repo.insert!(Doa.Main.User.registration_changeset(%Doa.Main.User{}, @create_attrs))
+      user = Doa.Repo.insert!(Doa.User.registration_changeset(%Doa.User{}, @create_attrs))
       login_conn = post(conn, Routes.session_path(conn, :create),
         %{"session" => %{"email" => @create_attrs[:email], "password" => @create_attrs[:password]}})
       auth_conn = recycle_cookies(conn, login_conn)

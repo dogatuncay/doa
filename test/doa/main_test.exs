@@ -1,10 +1,10 @@
-defmodule Doa.MainTest do
+defmodule DoaTest do
   use Doa.DataCase
 
-  alias Doa.Main
+  alias Doa
 
   # describe "plants" do
-  #   alias Doa.Main.Plant
+  #   alias Doa.Plant
 
   #   @valid_attrs %{" ": "some  ", accepted_symbol: "some accepted_symbol", adapted_to_coarse_soil: "some adapted_to_coarse_soil", adapted_to_fine_soil: "some adapted_to_fine_soil", adapted_to_medium_soil: "some adapted_to_medium_soil", anaerobic_tolerance: "some anaerobic_tolerance", calcium_carbonate_tolerance: "some calcium_carbonate_tolerance", characteristics_data: "some characteristics_data", common_name: "some common_name", fact_sheets: "some fact_sheets", plant_guides: "some plant_guides", plants_floristic_area: "some plants_floristic_area", scientific_name: "some scientific_name", state_and_province: "some state_and_province", synonym_symbol: "some synonym_symbol"}
   #   @update_attrs %{" ": "some updated  ", accepted_symbol: "some updated accepted_symbol", adapted_to_coarse_soil: "some updated adapted_to_coarse_soil", adapted_to_fine_soil: "some updated adapted_to_fine_soil", adapted_to_medium_soil: "some updated adapted_to_medium_soil", anaerobic_tolerance: "some updated anaerobic_tolerance", calcium_carbonate_tolerance: "some updated calcium_carbonate_tolerance", characteristics_data: "some updated characteristics_data", common_name: "some updated common_name", fact_sheets: "some updated fact_sheets", plant_guides: "some updated plant_guides", plants_floristic_area: "some updated plants_floristic_area", scientific_name: "some updated scientific_name", state_and_province: "some updated state_and_province", synonym_symbol: "some updated synonym_symbol"}

@@ -3,26 +3,31 @@ defmodule Doa.Auth do
   alias Plug.Conn
   # import Plug.Conn
 
-  def login(conn, user) do
-    conn
-    |> Guardian.Plug.sign_in(user, :access)
+  def dangerously_authorize(conn, user) do
+    Guardian.Plug.sign_in(conn, user, :access)
   end
 
-  @spec login_by_email_and_pass(Conn.t(), String.t(), String.t(), Keyword.t()) ::
-      {:ok, Conn.t()}
-    | {:error, :not_found | :unauthorized, Conn.t()}
-  def login_by_email_and_pass(conn, email, given_pass, opts) do
-    repo = Keyword.fetch!(opts, :repo)
-    user = repo.get_by(Doa.Main.User, email: email)
-    # IO.puts "#{inspect given_pass} vs #{inspect user.password_hash}"
-    cond do
-      user && checkpw(given_pass, user.password_hash) ->
-        {:ok, login(conn, user)}
-      user ->
-        {:error, :unauthorized, conn}
-      true ->
-        dummy_checkpw()
-        {:error, :not_found, conn}
+  @spec valid_credentials?(String.t(), String.t()) :: {:valid, %Doa.User{}} | :invalid
+  def valid_credentials?(email, pass) do
+    user = Doa.Repo.get_by(Doa.User, email: email)
+
+    if user do
+      if checkpw(pass, user.password_hash) do
+        {:valid, user}
+      else
+        :invalid
+      end
+    else
+      dummy_checkpw()
+      :invalid
+    end
+  end
+
+  @spec authorize(Conn.t(), String.t(), String.t()) :: {:ok, Conn.t()} | :error
+  def authorize(conn, email, pass) do
+    case valid_credentials?(email, pass) do
+      {:valid, user} -> {:ok, dangerously_authorize(conn, user)}
+      :invalid -> :error
     end
   end
 end

@@ -1,4 +1,4 @@
-defmodule Doa.Main.Story do
+defmodule Doa.Story do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -6,7 +6,7 @@ defmodule Doa.Main.Story do
   schema "stories" do
     field :title,    :string, size: 40
     field :body,    :string
-    belongs_to :user, Doa.Main.User
+    belongs_to :user, Doa.User
 
     timestamps()
   end

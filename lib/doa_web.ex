@@ -27,6 +27,19 @@ defmodule DoaWeb do
     end
   end
 
+  def api_controller do
+    quote do
+      use unquote(__MODULE__), :controller
+      alias Doa.Repo
+      alias Ecto.Changeset
+      alias Ecto.Query
+      import Ecto.Changeset
+      import Ecto.Query, only: [from: 2]
+      import DoaWeb.Api.Helpers
+      plug :put_view, DoaWeb.ApiView
+    end
+  end
+
   def view do
     quote do
       use Phoenix.View,

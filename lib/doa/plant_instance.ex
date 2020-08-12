@@ -1,4 +1,4 @@
-defmodule Doa.Main.PlantInstance do
+defmodule Doa.PlantInstance do
   use Ecto.Schema
   import Ecto.Changeset
 
@@ -8,9 +8,9 @@ defmodule Doa.Main.PlantInstance do
     field :is_containerized, :boolean
     field :light_requirement, Doa.Enum.LightRequirementsEnum
 
-    belongs_to :user, Doa.Main.User
-    belongs_to :residence, Doa.Main.Residence
-    belongs_to :plant, Doa.Main.Plant
+    belongs_to :user, Doa.User
+    belongs_to :residence, Doa.Residence
+    belongs_to :plant, Doa.Plant
 
     timestamps()
   end
