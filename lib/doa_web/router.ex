@@ -33,21 +33,18 @@ defmodule DoaWeb.Router do
   scope "/api", DoaWeb.Api do
     pipe_through [:api, :auth]
 
-    get "/sessions", SessionController, :get
+    get "/sessions", SessionController, :show
     delete "/sessions", SessionController, :delete
 
     post "/user", UserController, :follow
     post "/user/search", UserController, :search
-    post "/user/change_password", UserController, :update   #TODO change_password -> update
+    post "/user/change_password", UserController, :update
 
-    get "/residences", ResidenceController, :get
-    post "/residences", ResidenceController, :new
-    put "/residences/:id", ResidenceController, :update
-    delete "/residences/:id", ResidenceController, :delete
+    resources "/residences", ResidenceController, only: [:index, :create, :update, :delete]
 
     get "/user/residences/:residence_id/plants", PlantInstanceController, :get_by_residence
     get "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :get_by_id
-    post "/user/residences/:residence_id/plants", PlantInstanceController, :new
+    post "/user/residences/:residence_id/plants", PlantInstanceController, :create
     put "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :update
     delete "/user/residences/:residence_id/plants/:plant_instance_id", PlantInstanceController, :delete
 

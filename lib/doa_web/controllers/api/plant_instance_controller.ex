@@ -3,10 +3,6 @@ defmodule DoaWeb.Api.PlantInstanceController do
   alias Doa.PlantInstance
   alias Doa.Residence
 
-  # TODO: put in a helper or something, cause you have multiple of these
-  defp parse_int(n) when is_integer(n), do: n
-  defp parse_int(s) when is_binary(s), do: String.to_integer(s)
-
   @allowed_preloads ["plant"]
 
   # TODO: refactor dynamic preloading
@@ -24,12 +20,12 @@ defmodule DoaWeb.Api.PlantInstanceController do
     ok(conn, %{plant_instances: plant_instances})
   end
 
-  def new(conn, %{"residence_id" => residence_id, "plant_instance" => plant_instance_params}) do
+  def create(conn, %{"residence_id" => residence_id, "plant_instance" => plant_instance_params}) do
     params = Map.put(plant_instance_params, "residence_id", residence_id)
     changeset =
       Guardian.Plug.current_resource(conn)
       |> Ecto.build_assoc(:plant_instances)
-      |> PlantInstance.changeset(params)
+      |> PlantInstance.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_plant_instance} ->
@@ -40,8 +36,7 @@ defmodule DoaWeb.Api.PlantInstanceController do
   end
 
   def update(conn, %{"residence_id" => _, "plant_instance_id" => plant_instance_id, "plant_instance" => params}) do
-    plant_instance = Repo.get!(PlantInstance, plant_instance_id)
-    case PlantInstance.changeset(plant_instance, params) |> Repo.update do
+    case Repo.update(%PlantInstance{id: String.to_integer(plant_instance_id)} |> PlantInstance.update_changeset(params)) do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->
@@ -50,8 +45,7 @@ defmodule DoaWeb.Api.PlantInstanceController do
   end
 
   def delete(conn, %{"residence_id" => _, "plant_instance_id" => plant_instance_id}) do
-    plant_instance = Repo.get!(PlantInstance, plant_instance_id)
-    case Repo.delete(plant_instance) do
+    case %PlantInstance{id: plant_instance_id} |> Repo.delete do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->

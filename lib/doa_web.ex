@@ -35,7 +35,7 @@ defmodule DoaWeb do
       alias Ecto.Query
       import Ecto.Changeset
       import Ecto.Query, only: [from: 2]
-      import DoaWeb.Api.Helpers
+      import DoaWeb.Api.RenderHelpers
       plug :put_view, DoaWeb.ApiView
     end
   end

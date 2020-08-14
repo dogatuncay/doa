@@ -2,6 +2,10 @@ defmodule Doa.PlantInstance do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @optional_fields [:note, :is_indoor, :is_containerized, :light_requirement, ]
+  @required_fields [:user_id, :residence_id, :plant_id]
+  @fields @optional_fields ++ @required_fields
+
   schema "plant_instances" do
     field :note, :string
     field :is_indoor, :boolean
@@ -34,11 +38,16 @@ defmodule Doa.PlantInstance do
     end
   end
 
-  def changeset(plant_instance \\ %__MODULE__{}, attrs \\ %{}) do
+  def create_changeset(plant_instance \\ %__MODULE__{}, attrs \\ %{}) do
     plant_instance
-    |> cast(attrs, [:id, :note, :is_indoor, :is_containerized, :light_requirement, :user_id, :residence_id, :plant_id])
+    |> update_changeset(attrs)
+    |> validate_required([:plant_id, :residence_id, :user_id])
+  end
+
+  def update_changeset(plant_instance \\ %__MODULE__{}, attrs \\ %{}) do
+    plant_instance
+    |> cast(attrs, @fields)
     |> assoc_constraint(:user)
     |> assoc_constraint(:residence)
-    # |> validate_required([:title])
   end
 end

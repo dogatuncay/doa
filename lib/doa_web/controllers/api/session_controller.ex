@@ -12,7 +12,7 @@ defmodule DoaWeb.Api.SessionController do
     end
   end
 
-  def get(conn, _) do
+  def show(conn, _) do
     logged_in_user = Guardian.Plug.current_resource(conn)
     ok(conn, logged_in_user)
   end

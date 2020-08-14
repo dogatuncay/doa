@@ -13,7 +13,7 @@ defmodule DoaWeb.Api.StoryController do
     changeset =
       Guardian.Plug.current_resource(conn)
       |> Ecto.build_assoc(:stories)
-      |> Story.changeset(params)
+      |> Story.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_story} ->
@@ -23,10 +23,8 @@ defmodule DoaWeb.Api.StoryController do
     end
   end
 
-  #TODO Doa.Repo.update!(%Doa.Story{id: 166} |> Ecto.Changeset.change(%{:body => "asdfasdfasdfasdfasdafjkasfkjasfjkafsjkasjkasf"}))
   def update(conn, %{"id" => id, "story" => params}) do
-    story = Repo.get!(Story, id)
-    case Story.changeset(story, params) |> Repo.update do
+    case Repo.update(%Story{id: String.to_integer(id)} |> Story.update_changeset(params)) do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->
@@ -35,8 +33,7 @@ defmodule DoaWeb.Api.StoryController do
   end
 
   def delete(conn, %{"id" => id}) do
-    story = Repo.get!(Story, id)
-    case Repo.delete(story) do
+    case %Story{id: id} |> Repo.delete do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->

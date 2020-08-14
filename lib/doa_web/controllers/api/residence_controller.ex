@@ -4,16 +4,16 @@ defmodule DoaWeb.Api.ResidenceController do
   alias Doa.Residence
   alias Doa.Repo
 
-  def get(conn, _) do
+  def index(conn, _) do
     user = Guardian.Plug.current_resource(conn)
     residences = Repo.all(Ecto.assoc(user, :residences))
     ok(conn, %{residences: residences})
   end
-  def new(conn, %{"residence" => params}) do
+  def create(conn, %{"residence" => params}) do
     changeset =
       Guardian.Plug.current_resource(conn)
       |> Ecto.build_assoc(:residences)
-      |> Residence.changeset(params)
+      |> Residence.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_residence} ->
@@ -24,8 +24,7 @@ defmodule DoaWeb.Api.ResidenceController do
   end
 
   def update(conn, %{"id" => id, "residence" => params}) do
-    residence = Repo.get!(Residence, id)
-    case Residence.changeset(residence, params) |> Repo.update do
+    case Repo.update(%Residence{id: String.to_integer(id)} |> Residence.update_changeset(params)) do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->
@@ -34,8 +33,7 @@ defmodule DoaWeb.Api.ResidenceController do
   end
 
   def delete(conn, %{"id" => id}) do
-    residence = Repo.get!(Residence, id)
-    case Residence.delete_residence_w_plants(residence) do
+    case Residence.delete_residence_w_plants(id) do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->

@@ -3,12 +3,10 @@ defmodule DoaWeb.Api.UserController do
   alias Doa.User
   alias Doa.Follow
   import Comeonin.Bcrypt, only: [checkpw: 2]
+  import DoaWeb.Api.Helpers
 
   # TODO: max limit of what? too generic of a name
   @max_limit 200
-
-  defp parse_int(n) when is_integer(n), do: n
-  defp parse_int(s) when is_binary(s), do: String.to_integer(s)
 
   def create(conn, %{"user" => params}) do
     changeset = User.registration_changeset(%User{}, params)
@@ -36,11 +34,13 @@ defmodule DoaWeb.Api.UserController do
     end
   end
 
-  # TODO: refactor out try/rescue (you don't have to remove it completely, but you can't have this large of a try/rescue)
   def search(conn, %{"filter" => filter, "limit" => limit, "offset" => offset}) do
-    try do
+    int_limit = parse_int(limit)
+    if is_nil(int_limit) do
+      error(conn, "limit #{limit} is not a valid number")
+    else
       user = Guardian.Plug.current_resource(conn)
-      if parse_int(limit) <= @max_limit do
+      if int_limit <= @max_limit do
         # TODO: refactor this query composition
         search_query = User.get_search_query(filter)
         num_entries = Repo.aggregate(search_query, :count, :id)
@@ -59,12 +59,6 @@ defmodule DoaWeb.Api.UserController do
       else
         error(conn, "limit exceeds the maximum size of #{@max_limit}")
       end
-    rescue
-      # which functions could throw an argument
-      # for each function that could, what's the control flow to get to here
-      _ in ArgumentError -> error(conn, "limit #{limit} is not a valid number")
-      # cast parameters should probably be handled by the framework, not you
-      _ in Ecto.Query.CastError -> error(conn, "cannot cast the request parameters")
     end
   end
 
@@ -84,4 +78,5 @@ defmodule DoaWeb.Api.UserController do
       true -> error(conn, "nothing to change")
     end
   end
+
 end
