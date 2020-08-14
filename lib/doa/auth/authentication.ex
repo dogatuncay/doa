@@ -1,10 +1,12 @@
-defmodule Doa.Auth do
+defmodule Doa.Auth.Authentication do
   import Comeonin.Bcrypt, only: [checkpw: 2, dummy_checkpw: 0]
   alias Plug.Conn
   # import Plug.Conn
 
+  @spec dangerously_authorize(Plug.Conn.t(), %Doa.User{}) :: Plug.Conn.t()
   def dangerously_authorize(conn, user) do
-    Guardian.Plug.sign_in(conn, user, :access)
+    Doa.Auth.Guardian.Plug.sign_in(conn, user)
+    # Guardian.Plug.sign_in(conn, Doa.Auth.Guardian.Plug, user)
   end
 
   @spec valid_credentials?(String.t(), String.t()) :: {:valid, %Doa.User{}} | :invalid

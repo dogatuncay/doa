@@ -30,11 +30,15 @@ config :phoenix, :json_library, Jason
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env()}.exs"
 
-config :guardian, Guardian,
-  allowed_algos: ["HS512"],
-  verify_module: Guardian.JWT,
+# config :guardian, Guardian,
+#   allowed_algos: ["HS512"],
+#   verify_module: Guardian.JWT,
+#   issuer: "Doa",
+#   ttl: { 30, :days},
+#   verify_issuer: true,
+#   secret_key: "Bleu",
+#   serializer: Doa.GuardianSerializer
+
+config :doa, Doa.Auth.Guardian,
   issuer: "Doa",
-  ttl: { 30, :days},
-  verify_issuer: true,
-  secret_key: "Bleu",
-  serializer: Doa.GuardianSerializer
+  secret_key: "P+SowZ+AVWnOEmA84BDUB6XzbtFEKpRE7n3Qjs12pbJs3br4bGBVYizAAUhcd6yD"
