@@ -53,7 +53,7 @@ const Residence = ({data, setData, errors: apiErrors, deleteResidence, onClick})
 
   function renderField(label, field) {
     const value = getDataSource()[field];
-    const apiErrs = apiErrors && field in apiErrors ? [apiErrors[field]] : [];
+    const apiErrs = apiErrors && field in apiErrors ? [apiErrors[field]] : '';
     const valErrs = validations[field](value);
     const errors = apiErrs.concat(valErrs);
 

@@ -19,7 +19,7 @@ function stripFields(obj, toRemove) {
 }
 
 export function getPlantsForResidence(residence_id, dispatch, onError) {
-  return apiRequest(`/api/user/residences/${residence_id}/plants?preload=plant`, 'GET')
+  return apiRequest(`/api/residence/${residence_id}/plant?preload=plant`, 'GET')
   .then((response) => { 
     const instances = response.result.plant_instances;
     dispatch(loadPlantInstances(instances.map((inst) => stripFields(inst, ['plant']))));
@@ -30,7 +30,7 @@ export function getPlantsForResidence(residence_id, dispatch, onError) {
 }
 
 export function createPlantInstance(residence_id, plant_instance, dispatch, onError) {
-  return apiRequest(`/api/user/residences/${residence_id}/plants`, 'POST', {plant_instance})
+  return apiRequest(`/api/residence/${residence_id}/plant`, 'POST', {plant_instance})
   .then((response) => { 
     dispatch(loadPlantInstances([response.result]));
     return response.result;
@@ -43,7 +43,7 @@ export function updatePlantInstance(residence_id, oldPlantInstance, newPlantInst
   if(oldPlantInstance !== newPlantInstance) {
     const changedFields = compareObjects(oldPlantInstance, newPlantInstance);
     const plant_instance = filterObjectByKey(newPlantInstance, changedFields);
-    return apiRequest(`/api/user/residences/${residence_id}/plants/${oldPlantInstance.id}`, 'PUT', {plant_instance})
+    return apiRequest(`/api/residence/${residence_id}/plant/${oldPlantInstance.id}`, 'PUT', {plant_instance})
     .then((_) => { 
       dispatch(reloadPlantInstance(newPlantInstance));
       return newPlantInstance;
@@ -53,7 +53,7 @@ export function updatePlantInstance(residence_id, oldPlantInstance, newPlantInst
 }
 
 export function deletePlantInstance(residence_id, plant_instance_id, dispatch, onError) {
-  return apiRequest(`/api/user/residences/${residence_id}/plants/${plant_instance_id}`, 'DELETE')
+  return apiRequest(`/api/residence/${residence_id}/plant/${plant_instance_id}`, 'DELETE')
   .then((_) =>{ 
     dispatch(removePlantInstance(plant_instance_id));
   })

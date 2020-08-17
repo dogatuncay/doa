@@ -1,4 +1,3 @@
-# TODO: same as story
 defmodule DoaWeb.Api.ResidenceController do
   use DoaWeb, :api_controller
   alias Doa.Residence
@@ -33,7 +32,7 @@ defmodule DoaWeb.Api.ResidenceController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case Residence.delete_residence_w_plants(id) do
+    case Residence.delete_residence_w_plants(String.to_integer(id)) do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->

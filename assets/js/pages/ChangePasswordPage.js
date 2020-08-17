@@ -38,7 +38,7 @@ const ChangePasswordPage = () => {
   }
 
   function renderField(label, name) {
-    const apiErrs = apiErrors && name in apiErrors ? [apiErrors[name]] : [];
+    const apiErrs = apiErrors && name in apiErrors ? [apiErrors[name]] : '';
     const valErrs = getValidationErrors(data, name).map((err) => ({ message: err, context: {} }));
     const errors = apiErrs.concat(valErrs);
     return <InputField label={label} name={name} value={data[name]} errors={errors} onChange={updateField} />

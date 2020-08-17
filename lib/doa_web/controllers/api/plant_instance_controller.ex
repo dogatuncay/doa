@@ -6,7 +6,7 @@ defmodule DoaWeb.Api.PlantInstanceController do
   @allowed_preloads ["plant"]
 
   # TODO: refactor dynamic preloading
-  def get_by_residence(conn, params = %{"residence_id" => residence_id}) do
+  def index(conn, params = %{"residence_id" => residence_id}) do
     preload_input = Map.get(params, "preload", [])
     preloads = if is_list(preload_input), do: preload_input, else: [preload_input]
     filtered_preloads =
@@ -35,7 +35,7 @@ defmodule DoaWeb.Api.PlantInstanceController do
     end
   end
 
-  def update(conn, %{"residence_id" => _, "plant_instance_id" => plant_instance_id, "plant_instance" => params}) do
+  def update(conn, %{"residence_id" => _, "id" => plant_instance_id, "plant_instance" => params}) do
     case Repo.update(%PlantInstance{id: String.to_integer(plant_instance_id)} |> PlantInstance.update_changeset(params)) do
       {:ok, _} ->
         ok(conn)

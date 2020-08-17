@@ -80,7 +80,7 @@ function users(state = {}, action) {
       return loadUsers([action.user]);
     case REMOVE_CURRENT_USER:
       return state.filter((user) => user.id !== action.userId);
-    case SET_FOLLOW_STATUS: //todo
+    case SET_FOLLOW_STATUS:
       const newState = {...state};
       newState[action.userId] = {...newState[action.userId], am_following: action.amFollowing}
       return newState;

@@ -2,30 +2,31 @@ import apiRequest from './apiRequest.js';
 import { loadCurrentUser, loadUserSearch, setFollowStatus } from '../actions/userActions.js';
 
 export function getCurrentUser(dispatch, onError) {
-  return apiRequest(`/api/sessions`, 'GET')
+  return apiRequest(`/api/session`, 'GET')
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
     })
-    .catch(onError);
+    .catch((err) => {console.log(err); onError(err.errors)});
 }
 
 export function createNewUser(data, dispatch) {
-  return apiRequest('/api/user/new', 'POST', {user: data})
+  return apiRequest('/api/user', 'POST', {user: data})
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
     });
 }
 
 export function signOut(id, dispatch, onError) {
-  return apiRequest('/api/sessions', 'DELETE')
+  return apiRequest('/api/session', 'DELETE')
     .then((_) => {
+      console.log("ben bu iste ustayim")
       dispatch(removeCurrentUser(id));
     })
     .catch((err) => onError(err.errors));
 }
 
 export function signIn(data, dispatch) {
-  return apiRequest('/api/sessions', 'POST', {session: data})
+  return apiRequest('/api/session', 'POST', {session: data})
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
     });
@@ -40,11 +41,7 @@ export function changePassword(data, onError) {
 }
 
 export function searchUser(searchText, limit, offset, dispatch) {
-  return apiRequest('/api/user/search', 'POST', {
-    filter: searchText,
-    limit,
-    offset
-  })
+  return apiRequest(`/api/user?filter=${searchText}&limit=${limit}&offset=${offset}`, 'GET')
   .then((response) => {
     const {users: responseUsers, num_entries} = response.result;
     const users = responseUsers.map(({user, am_following}) => ({ ...user, am_following }));
@@ -54,7 +51,7 @@ export function searchUser(searchText, limit, offset, dispatch) {
 }
 
 export function followUser(id, follow, dispatch) {
-  return apiRequest('/api/user', 'POST', {id, follow})
+  return apiRequest(`/api/user/${id}`, 'PUT', {follow})
     .then((_) => {
       dispatch(setFollowStatus(id, follow));
     });

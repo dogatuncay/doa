@@ -3,7 +3,17 @@ defmodule DoaWeb.UserControllerTest do
   use Plug.Test
   alias Doa.Main
 
-  use Doa.Fixtures, [:conn, :user]
+  use Doa.Fixtures, [:auth_conn, :user]
 
-  # describe "create new residence"
+  @create_attrs %{
+    title: "my residence",
+    zipcode: "90000"
+  }
+
+
+  # describe "residence tests with authenticated user" do
+  #   test "create a residence", %{auth_conn: auth_conn} do
+
+  #   end
+  end
 end

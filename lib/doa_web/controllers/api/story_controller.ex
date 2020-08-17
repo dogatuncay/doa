@@ -33,7 +33,7 @@ defmodule DoaWeb.Api.StoryController do
   end
 
   def delete(conn, %{"id" => id}) do
-    case %Story{id: id} |> Repo.delete do
+    case %Story{id: String.to_integer(id)} |> Repo.delete do
       {:ok, _} ->
         ok(conn)
       {:error, changeset} ->

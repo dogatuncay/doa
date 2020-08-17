@@ -36,7 +36,7 @@ const PlantInstance = ({data, plantData, setData, errors, deletePlantInstance}) 
           label={label}
           name={field}
           value={value} 
-          errors={errors && field in errors ? [errors[field]] : []} 
+          errors={errors && field in errors ? [errors[field]] : ''} 
           onChange={updateField} />
       );
     } else {

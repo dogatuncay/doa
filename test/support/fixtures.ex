@@ -17,7 +17,7 @@ defmodule Doa.Fixtures do
         login_conn = post(conn, Routes.session_path(conn, :create),
           %{"session" => %{"email" => @create_attrs[:email], "password" => @create_attrs[:password]}})
         auth_conn = recycle_cookies(conn, login_conn)
-        {:ok, %{conn: auth_conn, user: user}}
+        {:ok, %{auth_conn: auth_conn, user: user}}
       end
     end
   end

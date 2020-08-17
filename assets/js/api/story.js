@@ -10,7 +10,7 @@ export const StoryPropType = PropTypes.shape({
 });
 
 export function getStories(dispatch, onError) {
-  return apiRequest('/api/stories', 'GET')
+  return apiRequest('/api/story', 'GET')
   .then((response) => { 
     dispatch(loadStories(response.result.stories));
     return response.result;
@@ -19,7 +19,7 @@ export function getStories(dispatch, onError) {
 }
 
 export function createStory(story, dispatch) {
-  return apiRequest(`/api/stories`, 'POST', {story})
+  return apiRequest(`/api/story`, 'POST', {story})
   .then((response) => { 
     dispatch(loadStories([response.result])); 
     return response.result;
@@ -31,7 +31,7 @@ export function updateStory(oldStory, newStory, dispatch, onError) {
   if(oldStory !== newStory) {
     const changedFields = compareObjects(oldStory, newStory);
     const story = filterObjectByKey(newStory, changedFields);
-    return apiRequest(`/api/stories/${newStory.id}`, 'PUT', {story})
+    return apiRequest(`/api/story/${newStory.id}`, 'PUT', {story})
     .then((_) => { 
       dispatch(reloadStory(newStory));
       return newStory;
@@ -41,7 +41,7 @@ export function updateStory(oldStory, newStory, dispatch, onError) {
 }
 
 export function deleteStory(id, dispatch, onError) {
-  return apiRequest(`/api/stories/${id}`, 'DELETE')
+  return apiRequest(`/api/story/${id}`, 'DELETE')
   .then((_) =>{ 
     dispatch(removeStory(id));
   })

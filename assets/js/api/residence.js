@@ -10,7 +10,7 @@ export const ResidencePropType = PropTypes.shape({
 });
 
 export function getResidences(dispatch, onError) {
-  return apiRequest('/api/residences', 'GET')
+  return apiRequest('/api/residence', 'GET')
   .then((response) => { 
     dispatch(loadResidences(response.result.residences));
     return response.result;
@@ -19,7 +19,7 @@ export function getResidences(dispatch, onError) {
 }
 
 export function createResidence(residence, dispatch, onError) {
-  return apiRequest(`/api/residences`, 'POST', {residence})
+  return apiRequest(`/api/residence`, 'POST', {residence})
   .then((response) => { 
     dispatch(loadResidences([response.result])); 
     return response.result;
@@ -32,7 +32,7 @@ export function updateResidence(oldResidence, newResidence, dispatch, onError) {
   if(oldResidence !== newResidence) {
     const changedFields = compareObjects(oldResidence, newResidence);
     const residence = filterObjectByKey(newResidence, changedFields);
-    return apiRequest(`/api/residences/${newResidence.id}`, 'PUT', {residence})
+    return apiRequest(`/api/residence/${newResidence.id}`, 'PUT', {residence})
     .then((_) => { 
       dispatch(reloadResidence(newResidence));
       return newResidence;
@@ -42,7 +42,7 @@ export function updateResidence(oldResidence, newResidence, dispatch, onError) {
 }
 
 export function deleteResidence(id, dispatch, onError) {
-  return apiRequest(`/api/residences/${id}`, 'DELETE')
+  return apiRequest(`/api/residence/${id}`, 'DELETE')
   .then((_) =>{ 
     dispatch(removeResidence(id));
   })
