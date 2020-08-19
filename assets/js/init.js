@@ -15,5 +15,4 @@ export default function init() {
     </Provider>,
     rootElement
   );
-  // render(<App/>, document.getElementById('root'));
 }

@@ -1,9 +1,9 @@
-defmodule DoaWeb.UserControllerTest do
+defmodule DoaWeb.ResidenceControllerTest do
   use DoaWeb.ConnCase
   use Plug.Test
   alias Doa.Main
 
-  use Doa.Fixtures, [:auth_conn, :user]
+  use Doa.Fixtures, [:authenticated_connection]
 
   @create_attrs %{
     title: "my residence",
@@ -11,9 +11,10 @@ defmodule DoaWeb.UserControllerTest do
   }
 
 
-  # describe "residence tests with authenticated user" do
-  #   test "create a residence", %{auth_conn: auth_conn} do
-
-  #   end
+  describe "authenticated user" do
+    test "create a residence", %{conn: conn} do
+      conn = post(authenticated_connection, Routes.residence_path(conn, :create), residence: @create_attrs)
+      assert json_response(conn, 200)  == true
+    end
   end
 end

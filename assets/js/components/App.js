@@ -25,7 +25,6 @@ export default function App() {
       <QueryParamProvider ReactRouterRoute={Route}>
         <div>
           <NavigationBar />
-          {/* <Link to='/plant_index_page'>Plant List</Link> */}
 
           <Switch> 
             <Route path='/plant_index_page'>
@@ -62,7 +61,6 @@ export default function App() {
               <UserSearchPage />
             </Route>
           </Switch>
-
         </div>
       </QueryParamProvider>
     </Router>

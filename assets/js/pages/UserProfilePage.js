@@ -4,7 +4,14 @@ import { useHistory } from "react-router-dom";
 import { getCurrentUser } from '../api/user.js';
 import Button from 'react-bootstrap/Button';
 import Spinner from '../components/Spinner.js'
-import InfoField from '../components/InfoField.js'
+
+const InfoField = ({label, info}) => {
+  return (
+    <div key={label}>
+      {label}: {info}
+    </div>
+  );
+}
 
 const UserProfilePage = () => {
   const dispatch = useDispatch();

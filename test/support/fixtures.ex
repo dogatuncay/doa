@@ -3,7 +3,7 @@ defmodule Doa.Fixtures do
   A module for defining fixtures that can be used in tests.
   """
 
-  def user do
+  def authenticated_connection do
     quote do
       @create_attrs %{
         name: "Doga Tuncay",
@@ -12,12 +12,11 @@ defmodule Doa.Fixtures do
         password: "tuncay123!"
       }
 
-      def user_fixture(conn, attrs \\ %{}) do
+      def connection_fixture(conn, attrs \\ %{}) do
         user = Doa.Repo.insert!(Doa.User.registration_changeset(%Doa.User{}, @create_attrs))
         login_conn = post(conn, Routes.session_path(conn, :create),
           %{"session" => %{"email" => @create_attrs[:email], "password" => @create_attrs[:password]}})
-        auth_conn = recycle_cookies(conn, login_conn)
-        {:ok, %{auth_conn: auth_conn, user: user}}
+        recycle_cookies(conn, login_conn)
       end
     end
   end

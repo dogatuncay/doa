@@ -1,26 +1,14 @@
-// We need to import the CSS so that webpack will load it.
-// The MiniCssExtractPlugin is used to separate it out into
-// its own CSS file.
 import css from "../css/app.css"
-import 'bootstrap';
-
-// webpack automatically bundles all modules in your
-// entry points. Those entry points can be configured
-// in "webpack.config.js".
-//
-// Import dependencies
-//
-import "phoenix_html"
-
-// Import local files
-//
-// Local files can be imported directly using relative paths, for example:
-// import socket from "./socket"
-
 import 'whatwg-fetch'
-
-import $ from 'jquery'
-window.$ = $;
 import init from './init'
 
-$(init);
+// https://stackoverflow.com/questions/799981/document-ready-equivalent-without-jquery
+function ready(callback){
+  if (document.readyState!='loading') callback();
+  else if (document.addEventListener) document.addEventListener('DOMContentLoaded', callback);
+  else document.attachEvent('onreadystatechange', function() {
+      if (document.readyState=='complete') callback();
+  });
+}
+
+ready(init);

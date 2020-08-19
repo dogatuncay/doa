@@ -1,6 +1,6 @@
 defmodule DoaWeb.PlantControllerTest do
   use DoaWeb.ConnCase
-  alias Doa.Main
+  alias Doa
 
   @create_attrs %{
     accepted_symbol: "some accepted_symbol",
@@ -33,36 +33,31 @@ defmodule DoaWeb.PlantControllerTest do
     min_temperature: 0
   }
 
-  describe "index" do
+  describe "plant" do
+    setup %{ conn: conn } do
+      plant = Doa.Repo.insert!(struct!(Doa.Plant, @create_attrs))
+      {:ok, plant: plant}
+    end
+
     test "lists all plants", %{conn: conn} do
       conn = get(conn, Routes.plant_path(conn, :index, limit: 10, offset: 0))
       assert json_response(conn, 200)["ok"]
-      assert json_response(conn, 200)["result"]["num_entries"] == 0
-      assert json_response(conn, 200)["result"]["plants"] == []
+      assert json_response(conn, 200)["result"]["num_entries"] == 1
+      # assert json_response(conn, 200)["result"]["plants"] == [Map.new(@create_attrs, fn {key, value} -> {Atom.to_string(key), value} end)]
 
-      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
-      Doa.Repo.insert!(changeset)
       conn = get(conn, Routes.plant_path(conn, :index, limit: 10, offset: 0))
       assert json_response(conn, 200)["result"]["num_entries"] == 1
     end
-  end
 
-  describe "search" do
-    test "search a plant", %{conn: conn} do
-      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
-      Doa.Repo.insert!(changeset)
-      conn = post(conn, Routes.plant_path(conn, :search), filter: "some", limit: 10, offset: 0)
+    test "search an existing and non-existing plant", %{conn: conn} do
+      conn = get(conn, Routes.plant_path(conn, :index, filter: "some", limit: 10, offset: 0))
       assert json_response(conn, 200)["result"]["num_entries"] == 1
-      conn = post(conn, Routes.plant_path(conn, :search), filter: "none", limit: 10, offset: 0)
+      conn = get(conn, Routes.plant_path(conn, :index, filter: "xxx", limit: 10, offset: 0))
       assert json_response(conn, 200)["result"]["num_entries"] == 0
     end
-  end
 
-  describe "get" do
-    test "search a plant", %{conn: conn} do
-      changeset = Doa.Plant.changeset(%Doa.Plant{}, @create_attrs)
-      {:ok, plant} = Doa.Repo.insert(changeset)
-      conn = get(conn, Routes.plant_path(conn, :get, plant.id))
+    test "get a single plant", %{conn: conn, plant: plant} do
+      conn = get(conn, Routes.plant_path(conn, :show, plant.id))
       assert json_response(conn, 200)
     end
   end

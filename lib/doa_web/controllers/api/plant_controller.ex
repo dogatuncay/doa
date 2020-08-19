@@ -23,12 +23,15 @@ defmodule DoaWeb.Api.PlantController do
   end
 
   #Prefer induction on the arguments as opposed to case switching
-  def index(conn, %{"limit" => limit, "offset" => offset}) do
-    do_index(conn, limit, offset, Plant)
-  end
 
   def index(conn, %{"filter" => filter, "limit" => limit, "offset" => offset}) do
+    IO.puts "iste geldim burdayim"
     do_index(conn, limit, offset, Plant.get_search_query(filter))
+  end
+
+  def index(conn, %{"limit" => limit, "offset" => offset}) do
+    IO.puts "ben bu iste ustayim"
+    do_index(conn, limit, offset, Plant)
   end
 
   def show(conn, %{"id" => id}) do

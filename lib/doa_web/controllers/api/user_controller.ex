@@ -32,6 +32,7 @@ defmodule DoaWeb.Api.UserController do
     end
   end
 
+  #TODO clean this up
   def update(conn, %{"id" => followee_id, "follow" => follow_request}) do
     user = Guardian.Plug.current_resource(conn)
     follow = Repo.one(from f in Follow, where: f.follower_id == ^user.id and f.followee_id == ^followee_id)
@@ -44,7 +45,7 @@ defmodule DoaWeb.Api.UserController do
         cond do
           not is_nil(followee) ->
             case Repo.insert(%Follow{follower_id: user.id, followee_id: String.to_integer(followee_id)}) do
-              {:ok, conn} -> ok(conn)
+              {:ok, _} -> ok(conn)
               {:error, changeset} -> changeset_errors(conn, changeset.errors)
             end
           true -> error(conn, "user not found")
