@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import Button from 'react-bootstrap/Button';
-import { followUser } from '../api/user.js';
+import { followUser } from '../api/user';
 
 const UserList = ({data, onClick}) => {
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import {useParams} from 'react-router-dom';
-import Spinner from '../components/Spinner.js'
-import { getPlant } from '../api/plant.js';
+import Spinner from '../components/Spinner'
+import { getPlant } from '../api/plant';
 
 const PlantPage = () => {
   const dispatch = useDispatch();
@@ -10,7 +10,10 @@ const PlantPage = () => {
   const plant = useSelector((state) => state.plants[id]);
 
   useEffect(() => {
-    if(!plant) getPlant(dispatch, (err) => console.error(err));
+    if(!plant) {
+      getPlant(id, dispatch)
+      .catch((err) => console.error(err.errors));
+    }
   }, [id, plant]);
 
   function showInfo(infoLabel, info) {

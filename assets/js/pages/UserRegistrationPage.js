@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { createNewUser } from '../api/user.js';
-import InputField from '../components/InputField.js';
+import { createNewUser } from '../api/user';
+import InputField from '../components/InputField';
 
 const UserRegistrationPage = () => {
   const dispatch = useDispatch();

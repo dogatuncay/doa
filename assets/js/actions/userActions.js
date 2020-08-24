@@ -12,8 +12,8 @@ export function loadCurrentUser(user) {
   return { type: LOAD_CURRENT_USER, user };
 }
 
-export function removeCurrentUser(userId) {
-  return { type: REMOVE_CURRENT_USER, userId};
+export function removeCurrentUser() {
+  return { type: REMOVE_CURRENT_USER};
 }
 
 export function loadUserSearch(users, searchTerm, offset, count) {

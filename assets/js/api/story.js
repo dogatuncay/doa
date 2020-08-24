@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import apiRequest from '../api/apiRequest.js';
-import { loadStories, reloadStory, removeStory } from '../actions/storyActions.js';
-import { compareObjects, filterObjectByKey } from '../helpers/objectHelpers.js';
+import apiRequest from '../api/apiRequest';
+import { loadStories, reloadStory, removeStory } from '../actions/storyActions';
+import { compareObjects, filterObjectByKey } from '../helpers/objectHelpers';
   
 export const StoryPropType = PropTypes.shape({
   id: PropTypes.number,
@@ -9,13 +9,12 @@ export const StoryPropType = PropTypes.shape({
   body: PropTypes.string
 });
 
-export function getStories(dispatch, onError) {
+export function getStories(dispatch) {
   return apiRequest('/api/story', 'GET')
   .then((response) => { 
     dispatch(loadStories(response.result.stories));
     return response.result;
-  })
-  .catch((err) => onError(err.errors));
+  });
 }
 
 export function createStory(story, dispatch) {
@@ -26,7 +25,7 @@ export function createStory(story, dispatch) {
   })
 }
 
-export function updateStory(oldStory, newStory, dispatch, onError) {
+export function updateStory(oldStory, newStory, dispatch) {
   if(oldStory.id !== newStory.id) throw new Error("ids don't match");
   if(oldStory !== newStory) {
     const changedFields = compareObjects(oldStory, newStory);
@@ -35,15 +34,13 @@ export function updateStory(oldStory, newStory, dispatch, onError) {
     .then((_) => { 
       dispatch(reloadStory(newStory));
       return newStory;
-    })
-    .catch((err) => onError(err.errors));
+    });
   }
 }
 
-export function deleteStory(id, dispatch, onError) {
+export function deleteStory(id, dispatch) {
   return apiRequest(`/api/story/${id}`, 'DELETE')
   .then((_) =>{ 
     dispatch(removeStory(id));
-  })
-  .catch((err) => onError(err.errors));
+  });
 }

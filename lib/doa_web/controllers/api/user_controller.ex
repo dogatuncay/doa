@@ -68,7 +68,7 @@ defmodule DoaWeb.Api.UserController do
         case Repo.all(paginated_query) do
           nil -> error(conn, "problem with the search")
           users ->
-          # TODO: get help here
+          # TODO: bring the logic back here
           #   users = Enum.map(users, fn %{person: person, am_following: am_following} ->
           #     Map.put(person, :am_following, am_following)
           #   end)

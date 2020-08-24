@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AsyncPaginate } from 'react-select-async-paginate';
-import Spinner from '../components/Spinner.js'
+import Spinner from '../components/Spinner'
 
 const limit = 100;
 

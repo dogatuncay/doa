@@ -4,8 +4,8 @@ import { AsyncPaginate } from 'react-select-async-paginate';
 import Select from 'react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faWindowClose, faCheck, faSquare, faCheckSquare } from '@fortawesome/free-solid-svg-icons';
-import InputField from '../components/InputField.js';
-import { searchPlant } from '../api/plant.js';
+import InputField from '../components/InputField';
+import { searchPlant } from '../api/plant';
 
 
 const PLANT_OPTIONS_WIDTH = 20;
@@ -19,7 +19,7 @@ function loadPlantOptions(search, loadedOptions) {
   const noop = () => null;
   const offset = loadedOptions.length;
 
-  return searchPlant(search, PLANT_OPTIONS_WIDTH, offset, noop, onError)
+  return searchPlant(search, PLANT_OPTIONS_WIDTH, offset, noop)
     .then(({plants, num_entries}) => {
       if(error !== null) {
         throw error;
@@ -33,6 +33,7 @@ function loadPlantOptions(search, loadedOptions) {
         };
       }
     })
+    .catch((error) => console.error(error));
 }
 
 // async function loadPlantOptions(search, loadedOptions) {
@@ -61,7 +62,7 @@ function loadPlantOptions(search, loadedOptions) {
 // }
 
 
-const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
+const PlantInstanceForm = ({savePlantInstance, cancelPlantInstance}) => {
   const light_requirement_options = [
     {label: "Full Sun", value: 0},
     {label: "Bright", value: 1},
@@ -131,8 +132,9 @@ const NewPlantInstance = ({savePlantInstance, cancelPlantInstance}) => {
     );
 };
 
-NewPlantInstance.propTypes = {
+PlantInstanceForm.propTypes = {
   savePlantInstance: PropTypes.func.isRequired,
   cancelPlantInstance: PropTypes.func.isRequired
 };
-export default NewPlantInstance;
+
+export default PlantInstanceForm;

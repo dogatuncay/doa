@@ -1,5 +1,5 @@
-import apiRequest from './apiRequest.js';
-import { loadCurrentUser, loadUserSearch, setFollowStatus } from '../actions/userActions.js';
+import apiRequest from './apiRequest';
+import { loadCurrentUser, loadUserSearch, setFollowStatus } from '../actions/userActions';
 
 export function getCurrentUser(dispatch, onError) {
   return apiRequest(`/api/session`, 'GET')
@@ -16,11 +16,11 @@ export function createNewUser(data, dispatch) {
     });
 }
 
-export function signOut(id, dispatch, onError) {
+export function signOut(dispatch, onError) {
   return apiRequest('/api/session', 'DELETE')
     .then((_) => {
       console.log("ben bu iste ustayim")
-      dispatch(removeCurrentUser(id));
+      dispatch(removeCurrentUser());
     })
     .catch((err) => onError(err.errors));
 }
@@ -32,12 +32,11 @@ export function signIn(data, dispatch) {
     });
 }
 
-export function changePassword(data, onError) {
+export function changePassword(data) {
   return apiRequest('/api/user/change_password', 'POST', {user: data})
     .then((response) => {
       console.log(response);
-    })
-    .catch((err) => onError(err.errors));
+    });
 }
 
 export function searchUser(searchText, limit, offset, dispatch) {

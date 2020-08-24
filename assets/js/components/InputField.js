@@ -1,5 +1,5 @@
 import React from 'react';
-import renderTemplate from '../helpers/renderTemplate.js';
+import renderTemplate from '../helpers/renderTemplate';
 
 const InputField = ({label, name, value, errors, onChange}) => {
   // const errMessage = errors.map((err) => {
@@ -21,6 +21,5 @@ const InputField = ({label, name, value, errors, onChange}) => {
     </>
   );
 }
-// TODO: prop types
 
 export default InputField;

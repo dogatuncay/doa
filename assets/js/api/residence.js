@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import apiRequest from '../api/apiRequest.js';
-import { loadResidences, reloadResidence, removeResidence } from '../actions/residenceActions.js';
-import { compareObjects, filterObjectByKey } from '../helpers/objectHelpers.js';
+import apiRequest from '../api/apiRequest';
+import { loadResidences, reloadResidence, removeResidence } from '../actions/residenceActions';
+import { compareObjects, filterObjectByKey } from '../helpers/objectHelpers';
   
 export const ResidencePropType = PropTypes.shape({
   id: PropTypes.number,
@@ -9,25 +9,23 @@ export const ResidencePropType = PropTypes.shape({
   zipcode: PropTypes.string
 });
 
-export function getResidences(dispatch, onError) {
+export function getResidences(dispatch) {
   return apiRequest('/api/residence', 'GET')
   .then((response) => { 
     dispatch(loadResidences(response.result.residences));
     return response.result;
-  })
-  .catch((err) => onError(err.errors));
+  });
 }
 
-export function createResidence(residence, dispatch, onError) {
-  return apiRequest(`/api/residence`, 'POST', {residence})
+export function createResidence(residence, dispatch) {
+  return apiRequest('/api/residence', 'POST', {residence})
   .then((response) => { 
     dispatch(loadResidences([response.result])); 
     return response.result;
-  })
-  .catch((err) => onError(err.errors));
+  });
 }
 
-export function updateResidence(oldResidence, newResidence, dispatch, onError) {
+export function updateResidence(oldResidence, newResidence, dispatch) {
   if(oldResidence.id !== newResidence.id) throw new Error('todo');
   if(oldResidence !== newResidence) {
     const changedFields = compareObjects(oldResidence, newResidence);
@@ -36,15 +34,13 @@ export function updateResidence(oldResidence, newResidence, dispatch, onError) {
     .then((_) => { 
       dispatch(reloadResidence(newResidence));
       return newResidence;
-    })
-    .catch((err) => onError(err.errors));
+    });
   }
 }
 
-export function deleteResidence(id, dispatch, onError) {
+export function deleteResidence(id, dispatch) {
   return apiRequest(`/api/residence/${id}`, 'DELETE')
   .then((_) =>{ 
     dispatch(removeResidence(id));
-  })
-  .catch((err) => onError(err.errors));
+  });
 }

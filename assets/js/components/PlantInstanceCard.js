@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrash, faWindowClose, faCheck } from '@fortawesome/free-solid-svg-icons';
-import InputField from '../components/InputField.js';
+import InputField from './InputField';
 
-const PlantInstance = ({data, plantData, setData, errors, deletePlantInstance}) => {
+const PlantInstanceCard = ({data, setData, errors, deletePlantInstance}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState(data);
   const getDataSource = () => isEditing ? editData : data;
   const setDataSource = (value) => isEditing ? setEditData(value) : setData(value);
   const updateField = (name, value) => setDataSource({ ...getDataSource(), [name]: value });
-  const getPlantField = (field) => plantData && (field in plantData) ? plantData[field] : null;
+  const plant = useSelector(state => state.plants[data.plant_id]);
+  const getPlantField = (field) => plant && (field in plant) ? plant[field] : null;
+
   
   function beginEditing() { 
     setEditData(data);
@@ -71,7 +73,7 @@ const PlantInstance = ({data, plantData, setData, errors, deletePlantInstance}) 
   
 }
 
-PlantInstance.propTypes = {
+PlantInstanceCard.propTypes = {
   // data: PlantInstancePropType,
   // plantData: PlantPropType,
   setData: PropTypes.func.isRequired,
@@ -79,4 +81,4 @@ PlantInstance.propTypes = {
   deletePlantInstance: PropTypes.func.isRequired
 };
 
-export default PlantInstance;
+export default PlantInstanceCard;

@@ -1,80 +1,80 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { useHistory } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { getResidences, createResidence, updateResidence, deleteResidence } from '../api/residence.js';
-import NewResidence from '../components/NewResidence.js';
-import Residence from '../components/Residence.js';
-import Spinner from '../components/Spinner.js'
+import { 
+  getResidences, 
+  createResidence, 
+  updateResidence, 
+  deleteResidence 
+} from '../api/residence';
+import Form from '../components/Form';
+import Card from '../components/Card';
+import Index from '../components/Index';
 
 const ResidenceIndexPage = () => {
   const history = useHistory();
-  const [isEditing, setIsEditing] = useState(false);
-  const dispatch = useDispatch();
-  const residences = useSelector((state) => state.residences);
-  const [activeRequest, setActiveRequest] = useState(false);
-  const [errors, setErrors] = useState({});
 
-  useEffect(() => {
-    setActiveRequest(true);
-    getResidences(dispatch, (err) => console.error(err))
-      .then(() => (setActiveRequest(false)));
-  }, []);
-
-  function beginCreatingResidence() {
-    setIsEditing(true);
+  function onClick(data) {
+    history.push(`/residence/${data.id}/plant`);
   }
 
-  function cancelChanges() {
-    setIsEditing(false);
+  const schema = {
+    title: {
+      label: 'Title',
+      defaultValue: ''
+    },
+    zipcode: {
+      label: 'Zipcode',
+      defaultValue: '00000'
+    }
+  }
+  
+  const validations = {
+    title: function(title) {
+      if(title.length > 40) {
+        return ['Maximum size of 40 is exceeded.'];
+      }
+      return []; 
+    },
+    zipcode: function(zipcode) {
+      if(/^\d{5}(-\d{4})?$/.test(zipcode)) {
+        return []; 
+      } else {
+        return ['Invalid format'];
+      }
+    }
   }
 
-  function onClick(residence) {
-    history.push(`/residences/${residence.id}/plants`);
-  }
-
-  let newResidenceElement;
-  if(isEditing) {
-    newResidenceElement = (
-      <NewResidence
-        key="new-residence"
-        saveResidence={(residenceData) => { 
-          createResidence(residenceData, dispatch, (err) => console.error(err))
-          .then(()=> (setIsEditing(false)))
+  return (
+    <Index
+      dataSelector={(state) => state.residences}
+      createObject={createResidence}
+      getObject={getResidences}
+      form={(save, cancel) =>
+        <Form
+          key="new-story"
+          saveForm={save}
+          cancelForm={cancel}
+          schema={schema}
+        />
+        }
+      card = {(dispatch, residence, errors, updateErrors) =>
+        <Card 
+          key={residence.id} 
+          data={residence}
+          errors={errors}
+          setData={(newResidenceData) => {
+            updateResidence(residence, newResidenceData, dispatch)
+              .catch(updateErrors);
+            }
           }
-        } 
-        cancelResidence={() => cancelChanges()}
-      />
-    );
-  }
-  else {
-    newResidenceElement = <FontAwesomeIcon icon={faPlus} onClick={() => beginCreatingResidence()}/>
-  }
-
-  const residenceEntries = Object.entries(residences).map((residence) => {
-    return (
-      <Residence 
-        key={residence[1].id} 
-        data={residence[1]}
-        errors={errors}
-        setData={(newResidenceData) => updateResidence(residence[1], newResidenceData, dispatch, (err) => setErrors(err))}
-        deleteResidence={(residence_id) => deleteResidence(residence_id, dispatch, (err) => setErrors(err))}
-        onClick={(residence) => onClick(residence)}
-      />
-    ); 
-  });
-  if(activeRequest) {
-    return (<Spinner />);
-  }
-  else {
-    return ( 
-      <div className='residence-icons'>
-        {residenceEntries}
-        {newResidenceElement}
-      </div>
-    );
-  }
+          deleteObject={(residenceId) => deleteResidence(residenceId, dispatch, updateErrors)}
+          onClick={onClick}
+          schema={schema}
+          validations={validations}
+        />
+      }
+    />
+  );
 }
 
 export default ResidenceIndexPage;

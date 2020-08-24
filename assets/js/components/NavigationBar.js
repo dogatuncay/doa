@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { getCurrentUser, signOut } from '../api/user.js';
+import { signOut } from '../api/user';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faHome, faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,10 +11,6 @@ const NavigationBar = () => {
   const dispatch = useDispatch();
   const currentUserIndex = useSelector((state) => state.currentUser);
   const currentUserData = useSelector((state) => state.users[currentUserIndex]);
-
-  useEffect(() => {
-    if(!currentUserIndex) getCurrentUser(dispatch, (err) => console.error(err));
-  }, []);
 
   function onClick() {
     signOut(currentUserData.id, dispatch, (err) => console.error(err));
@@ -26,8 +22,8 @@ const NavigationBar = () => {
     userDropdown = (
       <>
         <NavDropdown.Item href="/user_profile_page">My profile</NavDropdown.Item>
-        <NavDropdown.Item href="/residences">My residences</NavDropdown.Item>
-        <NavDropdown.Item href="/stories">My stories</NavDropdown.Item>
+        <NavDropdown.Item href="/residence">My residences</NavDropdown.Item>
+        <NavDropdown.Item href="/story">My stories</NavDropdown.Item>
         <NavDropdown.Divider />
         <NavDropdown.Item href="/" onClick={onClick}>Sign Out</NavDropdown.Item>
       </>

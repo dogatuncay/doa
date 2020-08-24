@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQueryParam, NumberParam, StringParam, withDefault } from 'use-query-params';
 import { useHistory } from "react-router-dom";
-import mapRange from '../helpers/mapRange.js';
-import { searchPlant } from '../api/plant.js';
-import PlantList from '../components/PlantList.js'
-import Pagination from '../components/Pagination.js';
-import Spinner from '../components/Spinner.js'
+import mapRange from '../helpers/mapRange';
+import { searchPlant } from '../api/plant';
+import PlantList from '../components/PlantList'
+import PaginationControls from '../components/PaginationControls';
+import Spinner from '../components/Spinner'
 
 const PAGE_SIZE = 100;
 
@@ -26,8 +26,9 @@ const PlantSearchPage = () => {
   useEffect(() => {
     if(submittedSearch) {
       setActiveRequest(true);
-      searchPlant(searchText, PAGE_SIZE, PAGE_SIZE*(page-1), dispatch, (err) => console.error(err))
-      .then(() => setActiveRequest(false));
+      searchPlant(searchText, PAGE_SIZE, PAGE_SIZE*(page-1), dispatch)
+      .then(() => setActiveRequest(false))
+      .catch((error) => console.error(error))
     }
   }, [submittedSearch, page]);
 
@@ -73,7 +74,7 @@ const PlantSearchPage = () => {
         {searchElements}
         <div className="plant-index">
           <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />
-          <Pagination page={page} maxPages={numOfPages} onChange={setPage} />
+          <PaginationControls page={page} maxPages={numOfPages} onChange={setPage} />
         </div>
       </div>
     );

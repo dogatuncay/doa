@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { getCurrentUser } from '../api/user.js';
+import { getCurrentUser } from '../api/user';
 import Button from 'react-bootstrap/Button';
-import Spinner from '../components/Spinner.js'
+import Spinner from '../components/Spinner'
 
 const InfoField = ({label, info}) => {
   return (
@@ -13,7 +13,7 @@ const InfoField = ({label, info}) => {
   );
 }
 
-const UserProfilePage = () => {
+const MyProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const currentUserIndex = useSelector((state) => state.currentUser);
@@ -39,4 +39,4 @@ const UserProfilePage = () => {
   }
 }
 
-export default UserProfilePage;
+export default MyProfilePage;

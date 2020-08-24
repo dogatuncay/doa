@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import Button from 'react-bootstrap/Button';
-import { changePassword } from '../api/user.js';
-import InputField from '../components/InputField.js';
+import { changePassword } from '../api/user';
+import InputField from '../components/InputField';
 
 const validations = {
   password: {
@@ -46,12 +46,13 @@ const ChangePasswordPage = () => {
 
   function onClick() {
     setApiErrors({});
-    changePassword(data, (err) => setApiErrors(err))
+    changePassword(data)
     .then(() => {
       if(Object.keys(apiErrors).length === 0) {
         history.push('/user_profile_page');
       }
     })
+    .catch((err) => setApiErrors(err));
   }
 
   return (

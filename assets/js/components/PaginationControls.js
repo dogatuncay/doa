@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import mapRange from '../helpers/mapRange.js';
+import mapRange from '../helpers/mapRange';
 
 const SPAN_WIDTH = 5;
 

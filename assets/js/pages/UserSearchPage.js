@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQueryParam, NumberParam, StringParam, withDefault } from 'use-query-params';
 import { useHistory } from "react-router-dom";
-import mapRange from '../helpers/mapRange.js';
-import { searchUser } from '../api/user.js';
-import UserList from '../components/UserList.js';
-import Pagination from '../components/Pagination.js';
-import Spinner from '../components/Spinner.js'
+import mapRange from '../helpers/mapRange';
+import { searchUser } from '../api/user';
+import UserList from '../components/UserList';
+import PaginationControls from '../components/PaginationControls';
+import Spinner from '../components/Spinner'
 
 const PAGE_SIZE = 100;
 
@@ -75,7 +75,7 @@ const UserSearchPage = () => {
         {searchElements}
         <div className="user-index">
           <UserList data={usersOnPage} onClick={(user) => onClick(user)} />
-          <Pagination page={page} maxPages={numOfPages} onChange={setPage} />
+          <PaginationControls page={page} maxPages={numOfPages} onChange={setPage} />
         </div>
       </div>
     );

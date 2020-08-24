@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useQueryParam, NumberParam, withDefault } from 'use-query-params';
 import { useHistory } from "react-router-dom";
-import { getPlantsAlphabetically } from '../api/plant.js'
-import mapRange from '../helpers/mapRange.js';
-import PlantList from '../components/PlantList.js'
-import Spinner from '../components/Spinner.js'
-import Pagination from '../components/Pagination.js';
+import { getPlantsAlphabetically } from '../api/plant'
+import mapRange from '../helpers/mapRange';
+import PlantList from '../components/PlantList'
+import Spinner from '../components/Spinner'
+import PaginationControls from '../components/PaginationControls';
 
 const PAGE_SIZE = 100;
 
@@ -23,8 +23,9 @@ const PlantIndexPage = () => {
 
   useEffect(() => {
     setActiveRequest(true);
-    getPlantsAlphabetically(PAGE_SIZE, PAGE_SIZE*(page-1), dispatch, (err) => console.error(err))
-      .then(() => setActiveRequest(false));
+    getPlantsAlphabetically(PAGE_SIZE, PAGE_SIZE*(page-1), dispatch)
+      .then(() => setActiveRequest(false))
+      .catch((err) => console.error(err));
   }, [page]);
 
   const plantIds = mapRange(PAGE_SIZE*(page-1), PAGE_SIZE*page, (i) => plantsAlphabeticalIndex[i]);
@@ -40,7 +41,7 @@ const PlantIndexPage = () => {
     return (
       <div className="plant-index">
         <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />
-        <Pagination 
+        <PaginationControls 
           page={page}
           maxPages={numOfPages} 
           onChange={setPage}
