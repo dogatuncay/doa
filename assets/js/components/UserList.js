@@ -35,7 +35,8 @@ const UserList = ({data, onClick}) => {
 };
 
 UserList.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default UserList;

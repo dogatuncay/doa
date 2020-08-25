@@ -74,4 +74,14 @@ const Card = ({data, setData, errors: apiErrors, deleteObject, onClick, schema, 
   );
 }
 
+Card.propTypes = {
+  data: PropTypes.object.isRequired,
+  setData: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  deleteObject: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired,
+  validations: PropTypes.object
+};
+
 export default Card;

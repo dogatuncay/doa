@@ -4,7 +4,6 @@ import InputField from './InputField';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
-
 const Form = ({saveForm, cancelForm, schema}) => {
   let initialState = {};
   Object.keys(schema).forEach((field) => {
@@ -42,8 +41,11 @@ const Form = ({saveForm, cancelForm, schema}) => {
     </div>
     );
 }
+
 Form.propTypes = {
   saveForm: PropTypes.func.isRequired,
-  cancelForm: PropTypes.func.isRequired
+  cancelForm: PropTypes.func.isRequired,
+  schema: PropTypes.object.isRequired
 };
+
 export default Form;

@@ -18,7 +18,8 @@ const PlantList = ({data, onClick}) => {
 }
 
 PlantList.propTypes = {
-  data: PropTypes.array.isRequired
+  data: PropTypes.array.isRequired,
+  onClick: PropTypes.func.isRequired
 };
 
 export default PlantList;

@@ -5,8 +5,8 @@ import { loadPlants } from '../actions/plantActions';
 import { compareObjects, filterObjectByKey } from '../helpers/objectHelpers';
   
 export const PlantInstancePropType = PropTypes.shape({
-  residence_id: PropTypes.number,
-  plant_id: PropTypes.number,
+  residence_id: PropTypes.number.isRequired,
+  plant_id: PropTypes.number.isRequired,
   title: PropTypes.string,
   is_containerized: PropTypes.bool,
   is_indoor: PropTypes.bool

@@ -22,4 +22,12 @@ const InputField = ({label, name, value, errors, onChange}) => {
   );
 }
 
+InputField.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  errors: PropTypes.object,
+  onChange: PropTypes.func.isRequired
+};
+
 export default InputField;

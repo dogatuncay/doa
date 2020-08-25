@@ -36,32 +36,6 @@ function loadPlantOptions(search, loadedOptions) {
     .catch((error) => console.error(error));
 }
 
-// async function loadPlantOptions(search, loadedOptions) {
-//
-//   let error = null;
-//   const onError = (err) => {
-//     console.error('Got error while loading plant options:', err);
-//     error = err;
-//   };
-//   const noop = () => null;
-//   const offset = loadedOptions.length;
-//
-//   const {plants, num_entries} = await searchPlant(search, PLANT_OPTIONS_WIDTH, offset, noop, onError);
-//
-//   if(error !== null) {
-//     throw error;
-//   } else {
-//     return {
-//       hasMore: offset + plants.length < num_entries,
-//       options: plants.map((plant) => ({
-//         value: plant.id,
-//         label: `${plant.common_name} (${plant.scientific_name})`
-//       }))
-//     };
-//   }
-// }
-
-
 const PlantInstanceForm = ({savePlantInstance, cancelPlantInstance}) => {
   const light_requirement_options = [
     {label: "Full Sun", value: 0},

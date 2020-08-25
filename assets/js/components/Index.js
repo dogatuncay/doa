@@ -66,7 +66,15 @@ const Index = ({dataSelector, createObject, getObject, form, card}) => {
       </div>
     );
   }
-
 }
+
+Index.propTypes = {
+  dataSelector: PropTypes.func.isRequired,
+  createObject: PropTypes.func.isRequired,
+  getObject: PropTypes.func.isRequired,
+  errors: PropTypes.object,
+  form: PropTypes.func.isRequired,
+  card: PropTypes.func.isRequired
+};
 
 export default Index;
