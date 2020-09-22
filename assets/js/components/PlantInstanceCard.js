@@ -74,7 +74,7 @@ const PlantInstanceCard = ({data, setData, errors, deletePlantInstance}) => {
 }
 
 PlantInstanceCard.propTypes = {
-  data: PlantInstancePropType,
+  // data: PlantInstancePropType,
   setData: PropTypes.func.isRequired,
   apiErrors: PropTypes.object,
   deletePlantInstance: PropTypes.func.isRequired

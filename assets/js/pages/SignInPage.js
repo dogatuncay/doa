@@ -34,11 +34,12 @@ const SignInPage = () => {
   const error = (<div className="alert alert-danger">{errorText}</div>);
 
   return (
-    <div>
+    <div className='sign-in-card inner-section'>
+      <h1>Sign In</h1>
       {renderField('E-mail', 'email')}
       {renderField('Password', 'password')}
       {error}
-      <Button variant="primary" onClick={onClick}>Sign In</Button>
+      <button className='submit-button' type="button" onClick={onClick}>Sign In</button>
     </div>
   );
 }
