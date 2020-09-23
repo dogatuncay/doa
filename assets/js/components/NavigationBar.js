@@ -53,30 +53,12 @@ const NavigationBar = () => {
       </div>
 
       <div className="entry right">
-        <div class="header"><FontAwesomeIcon icon={faUser}/></div>
+        <div className="header"><FontAwesomeIcon icon={faUser}/></div>
         <div className="dropdown">
           {userDropdown}
         </div>
       </div>
     </div>
-  //   <div className='navigation-bar-controls'>
-  //     <div className="navigation-bar-auto-order">
-  //       <div className="navigatin-link"><a href="/"><FontAwesomeIcon icon={faHome} /></a></div>
-  //       <div className="navigatin-link"><a href="/"><FontAwesomeIcon icon={faBell} /></a></div>
-  //       <div className="navigation-dropdown"> 
-  //           <div className="navigation-dropdown-icon">
-  //             <FontAwesomeIcon icon={faSearch}/>
-  //           </div>
-    
-  //       <div className="navigation-dropdown">
-  //         <div className="navigation-dropdown-icon">
-  //           <FontAwesomeIcon icon={faUser}/>
-  //         </div>
-  //         {userDropdown}  
-  //       </div>
-  //     </div>
-  //   </div>
-  // </div>
   );
 }
 
