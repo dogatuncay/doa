@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import { createNewUser } from '../api/user';
 import InputField from '../components/InputField';
 
@@ -33,12 +32,12 @@ const UserRegistrationPage = () => {
   }
 
   return (
-    <div>
+    <div className="SignInPage">
       {renderField('Name', 'name')}
       {renderField('Username', 'user_name')}
       {renderField('E-mail', 'email')}
       {renderField('Password', 'password')}
-      <Button variant="primary" onClick={onClick}>Submit</Button>
+      <button className='submit-button' type="button" onClick={onClick}>Sign Up</button>
     </div>
   );
 }

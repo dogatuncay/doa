@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import NavigationBar from '../components/NavigationBar';
+import NavigationBar from './NavigationBar';
 import NotFound from '../components/NotFound';
 import HomePage from '../pages/HomePage';
 import PlantIndexPage from '../pages/PlantIndexPage';
@@ -26,7 +26,7 @@ export default function App() {
   return (
     <Router>
       <QueryParamProvider ReactRouterRoute={Route}>
-        <div>
+        <div className="doa-app">
           <NavigationBar />
 
           <Switch> 

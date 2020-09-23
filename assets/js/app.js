@@ -1,4 +1,4 @@
-import css from "../css/app.css"
+import css from "../css/app.scss"
 import 'whatwg-fetch'
 import init from './init'
 

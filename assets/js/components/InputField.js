@@ -11,11 +11,11 @@ const InputField = ({label, name, value, errors, onChange}) => {
   const errMessage = (<div style={{color: 'red'}}>{`${errStr}`}</div>);
 
   return (
-    <div>
+    <div className="InputField">
       <div className="input-label">
         {label}:
       </div>
-      <input 
+      <input
         key={name}
         className="input-field"
         type="text" 

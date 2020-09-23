@@ -61,7 +61,7 @@ const Index = ({dataSelector, createObject, getObject, form, card}) => {
   }
   else {
     return ( 
-      <div className='index-icons'>
+      <div className='index-card'>
         {cardElements}
         {formElement}
       </div>
