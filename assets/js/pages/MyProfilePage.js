@@ -29,7 +29,7 @@ const MyProfilePage = () => {
 
   if(currentUserData) {
     return (
-      <div>
+      <div className="UserPageCard">
         {Object.keys(currentUserData).map((key) => <InfoField key={key} label={key} info={currentUserData[key]} />)}
         <Button variant="link" onClick={onClick}>Change Password</Button>
       </div>

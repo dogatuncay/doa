@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import { changePassword } from '../api/user';
 import InputField from '../components/InputField';
 
@@ -56,11 +54,11 @@ const ChangePasswordPage = () => {
   }
 
   return (
-    <div>
+    <div className="UserPageCard">
       {renderField('Current Password', 'current_password')}
       {renderField('New Password', 'password')}
       {renderField('Confirm New Password', 'password_repeat')}
-      <Button variant="primary" onClick={onClick}>Submit</Button>
+      <button className='submit-button' type="button" onClick={onClick}>Submit</button>
     </div>
   );
 }

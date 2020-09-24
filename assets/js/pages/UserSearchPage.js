@@ -64,14 +64,14 @@ const UserSearchPage = () => {
     return <Spinner />;
   } else if(numOfPages == 0) {
     return (
-      <div>
+      <div className="index-card">
         {searchElements}
-        <div>Search didn't return any results.</div>
+        {/* <div>Search didn't return any results.</div> */}
       </div>
     );
   } else {
     return (
-      <div>
+      <div className="index-card">
         {searchElements}
         <div className="user-index">
           <UserList data={usersOnPage} onClick={(user) => onClick(user)} />

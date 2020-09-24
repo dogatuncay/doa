@@ -41,6 +41,20 @@ const NavigationBar = () => {
 
   return (
     <div id="navigation-bar">
+
+      <div className="entry" onClick={() => handleClick("/")}>
+        <div className="header">
+          DOA
+        </div>
+      </div>
+
+      <div className="entry right">
+        <div className="header"><FontAwesomeIcon icon={faUser}/></div>
+        <div className="dropdown">
+          {userDropdown}
+        </div>
+      </div>
+
       <div className="entry right">
         <div className="header"><FontAwesomeIcon icon={faSearch}/></div>
         <div className="dropdown">
@@ -52,10 +66,15 @@ const NavigationBar = () => {
         </div>
       </div>
 
-      <div className="entry right">
-        <div className="header"><FontAwesomeIcon icon={faUser}/></div>
-        <div className="dropdown">
-          {userDropdown}
+      <div className="entry right" onClick={() => handleClick("/")}>
+        <div className="header">
+          <FontAwesomeIcon icon={faBell}/>
+        </div>
+      </div>
+
+      <div className="entry right" onClick={() => handleClick("/")}>
+        <div className="header">
+          <FontAwesomeIcon icon={faHome}/>
         </div>
       </div>
     </div>

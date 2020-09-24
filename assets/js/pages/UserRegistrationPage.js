@@ -32,7 +32,7 @@ const UserRegistrationPage = () => {
   }
 
   return (
-    <div className="SignInPage">
+    <div className="UserPageCard">
       {renderField('Name', 'name')}
       {renderField('Username', 'user_name')}
       {renderField('E-mail', 'email')}

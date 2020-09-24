@@ -1,0 +1,24 @@
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination li {
+  font-size: medium;
+  padding-top: 1px;
+  text-decoration:none;  
+  min-width:44px;
+  min-height:44px;
+  box-shadow: inset 0px 1px 0px 0px rgba(255,255,255,.35);
+}
+
+.pagination li a {
+  color:#356AA0;
+}
+
+.breadcrumbs {
+  letter-spacing: 3px;
+  color:#356AA0;
+}

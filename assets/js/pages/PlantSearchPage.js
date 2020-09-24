@@ -63,14 +63,14 @@ const PlantSearchPage = () => {
     return <Spinner />;
   } else if(numOfPages == 0) {
     return (
-      <div>
+      <div className="index-card">
         {searchElements}
-        <div>Search didn't return any results.</div>
+        {/* <div>Search didn't return any results.</div> */}
       </div>
     );
   } else {
     return (
-      <div>
+      <div className="index-card">
         {searchElements}
         <div className="plant-index">
           <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />

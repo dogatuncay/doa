@@ -34,7 +34,7 @@ const SignInPage = () => {
   const error = (<div className="alert alert-danger">{errorText}</div>);
 
   return (
-    <div className='SignInPage'>
+    <div className='UserPageCard'>
       <h1>Sign In</h1>
       {renderField('E-mail', 'email')}
       {renderField('Password', 'password')}

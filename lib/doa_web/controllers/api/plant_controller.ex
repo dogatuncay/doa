@@ -12,8 +12,7 @@ defmodule DoaWeb.Api.PlantController do
       error(conn, "limit #{limit} is not a valid number")
     else
       if int_limit <= @max_result_limit do
-        query = from(p in query, limit: ^limit, offset: ^offset, order_by: p.scientific_name)
-        plants = Repo.all query
+        plants = Repo.all(from p in query, limit: ^limit, offset: ^offset, order_by: p.scientific_name)
         num_entries = Repo.aggregate(query, :count, :id)
         ok(conn, %{plants: plants, num_entries: num_entries})
       else
