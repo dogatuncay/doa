@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
 import { signOut } from '../api/user';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHome, faBell, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faHome, faBell, faSearch, faLeaf } from '@fortawesome/free-solid-svg-icons';
 
 const NavigationBar = () => {
   const dispatch = useDispatch();
@@ -43,9 +43,9 @@ const NavigationBar = () => {
     <div id="navigation-bar">
 
       <div className="entry" onClick={() => handleClick("/")}>
-        <div className="header">
-          DOA
-        </div>
+        {/* <div className="header"> */}
+          <div className="brand"><FontAwesomeIcon icon={faLeaf}/></div>
+        {/* </div> */}
       </div>
 
       <div className="entry right">

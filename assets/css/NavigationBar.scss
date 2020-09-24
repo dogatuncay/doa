@@ -38,12 +38,19 @@
   text-decoration: none;
 }
 
+#navigation-bar > .entry > .brand {
+  padding: 3px 5px 5px 10px;
+  color:  rgb(90, 172, 68);
+  font-size: x-large;
+}
+
 #navigation-bar > .entry > .dropdown {
   position: absolute;
   box-sizing: border-box;
   box-shadow: 0 8px 16px -5px rgba(9,30,66,.25);
   right: 0;
   border-radius: 0px 0px 6px 6px;
+  z-index: 10;
 }
 
 #navigation-bar > .entry > .dropdown > ul {

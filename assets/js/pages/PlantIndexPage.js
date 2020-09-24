@@ -39,14 +39,16 @@ const PlantIndexPage = () => {
     return <Spinner />;
   } else {
     return (
-      <div className="plant-index">
-        <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />
-        <PaginationControls 
-          page={page}
-          maxPages={numOfPages} 
-          onChange={setPage}
-        />
-      </div>
+      <div className='index-card'>
+        <div className="plant-index">
+          <PlantList data={plantsOnPage} onClick={(plant) => onClick(plant)} />
+          <PaginationControls 
+            page={page}
+            maxPages={numOfPages} 
+            onChange={setPage}
+          />
+        </div>
+      </div> 
     );
   }
 }
