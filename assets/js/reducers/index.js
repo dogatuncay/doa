@@ -5,13 +5,15 @@ import * as plantInstances from './plantInstances'
 import * as users from './users'
 import * as residences from './residences'
 import * as stories from './stories'
+import * as comments from './comments'
 
 const allSubReducers = {
   plants, 
   plantInstances, 
   users, 
   residences, 
-  stories
+  stories,
+  comments
 };
 
 let seenReducerEntries = {};

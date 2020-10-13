@@ -17,6 +17,14 @@ export function getStories(dispatch) {
   });
 }
 
+export function getStory(dispatch, id) {
+  return apiRequest(`/api/story/${id}`, 'GET')
+  .then((response) => { 
+    dispatch(loadStories([response.result.story]));
+    return response.result;
+  });
+}
+
 export function createStory(story, dispatch) {
   return apiRequest(`/api/story`, 'POST', {story})
   .then((response) => { 

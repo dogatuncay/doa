@@ -20,6 +20,7 @@ import ChangePasswordPage from '../pages/ChangePasswordPage';
 import ResidenceIndexPage from '../pages/ResidenceIndexPage';
 import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage';
 import StoryIndexPage from '../pages/StoryIndexPage';
+import StoryPage from '../pages/StoryPage';
 import UserSearchPage from '../pages/UserSearchPage';
 
 export default function App() {
@@ -53,6 +54,9 @@ export default function App() {
             </Route>
             <Route path='/residence'>
               <ResidenceIndexPage />
+            </Route>
+            <Route path='/story/:id'>
+              <StoryPage />
             </Route>
             <Route path='/story'>
               <StoryIndexPage />

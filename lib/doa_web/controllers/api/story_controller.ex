@@ -40,4 +40,13 @@ defmodule DoaWeb.Api.StoryController do
         error(conn, changeset.errors)
     end
   end
+
+  def show(conn, %{"id" => id}) do
+    story = Repo.get(Story, id)
+    if story != nil do
+      ok(conn, %{story: story})
+    else
+      error(conn, "id not found in Story database", :not_found)
+    end
+  end
 end

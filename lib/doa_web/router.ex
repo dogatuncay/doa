@@ -37,7 +37,8 @@ defmodule DoaWeb.Router do
     resources "/user", UserController, only: [:index, :update]
     resources "/residence", ResidenceController, only: [:index, :create, :update, :delete]
     resources "/residence/:residence_id/plant", PlantInstanceController, only: [:index, :show, :create, :update, :delete]
-    resources "/story", StoryController, only: [:index, :create, :update, :delete]
+    resources "/story", StoryController, only: [:index, :create, :update, :delete, :show]
+    resources "/story/:story_id/comment", CommentController, only: [:index]
   end
 
   scope "/", DoaWeb do

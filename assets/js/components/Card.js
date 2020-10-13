@@ -80,7 +80,7 @@ Card.propTypes = {
   setData: PropTypes.func.isRequired,
   errors: PropTypes.object,
   deleteObject: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onClick: PropTypes.func.isRequired,
   schema: PropTypes.object.isRequired,
   validations: PropTypes.object
 };
