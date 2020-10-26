@@ -3,7 +3,7 @@ defmodule Doa.Comment do
   import Ecto.Changeset
   import Ecto.Query
 
-  @derive {Jason.Encoder, only: [:id, :body, :upvote, :user_id, :story_id, :parent_comment]}
+  @derive {Jason.Encoder, only: [:id, :body, :user_id, :story_id, :parent_comment]}
   schema "comments" do
     field :upvote, :integer, default: 0
     field :body, :string
@@ -21,7 +21,7 @@ defmodule Doa.Comment do
     comment
     |> cast(attrs, [:body, :parent_comment])
     |> assoc_constraint(:parent)
-    |> validate_required([:body, :upvote])
+    |> validate_required([:body])
   end
 
   def delete_and_reorg_children(comment) do

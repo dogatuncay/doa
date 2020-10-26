@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp, faArrowDown, faCommentDots} from '@fortawesome/free-solid-svg-icons';
 
-const Comments = ({data, story_id}) => {
+const Comments = ({data}) => {
 
   const comments = data.map((comment) => {
     return (
-      <div key={comment.id} className="comment-view">
-        <div onClick={() => upvote(comment)}>
-          UPVOTE
+      <div key={comment.id}>
+        <div className="comment-vote">
+          <div onClick={() => downvote(comment)}><FontAwesomeIcon icon={faArrowUp}/></div>
+          <div>{comment.upvote}</div>
+          <div onClick={() => upvote(comment)}><FontAwesomeIcon icon={faArrowDown}/></div>
         </div>
-        <div onClick={() => downvote(comment)}>
-          DOWNVOTE
-        </div>
-        <div>
-          {comment.upvote}
-        </div>
-        <div>
-          {comment.body} 
-        </div>
-        <div>
-          ADD NEW COMMENT
+        <div className="comment-body">
+          <div>{comment.body}</div>
+          <div>
+            Reply<FontAwesomeIcon icon={faCommentDots}/>
+          </div>
         </div>
       </div>
     ); 
@@ -32,9 +30,9 @@ const Comments = ({data, story_id}) => {
   );
 }
 
-Comments.propTypes = {
-  data: PropTypes.array.isRequired,
-  onClick: PropTypes.func.isRequired
-};
+// Comments.propTypes = {
+//   data: PropTypes.array.isRequired,
+//   onClick: PropTypes.func.isRequired
+// };
 
-export default PlantList;
+export default Comments;

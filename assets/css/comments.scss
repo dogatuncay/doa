@@ -1,0 +1,16 @@
+.comments {
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  .comment-body {
+    height: 100%;
+    background-color:green;
+  }
+
+  .comment-vote {
+    height: 100%;
+    background-color: blue;
+  } 
+}

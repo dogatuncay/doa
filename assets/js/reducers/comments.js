@@ -6,7 +6,7 @@ export function comments(state = {}, action) {
   let newState = {...state};
   switch (action.type) {
     case LOAD_COMMENTS:
-      action.commentData.forEach((comment) => newState[comment.id] = comment);
+      action.commentsData.forEach((comment) => newState[comment.id] = comment);
       return newState;
     default:
       return state;
