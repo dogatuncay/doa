@@ -2,8 +2,11 @@ defmodule DoaWeb.Api.UserController do
   use DoaWeb, :api_controller
   alias Doa.User
   alias Doa.Follow
+  alias Doa.Story
+  alias Doa.Permissions
   import Comeonin.Bcrypt, only: [checkpw: 2]
   import DoaWeb.Api.Helpers
+  import Ecto.Query, only: [from: 2]
 
   @max_result_limit 200
 
@@ -17,7 +20,7 @@ defmodule DoaWeb.Api.UserController do
       {:error, %Ecto.Changeset{} = changeset} -> changeset_errors(conn, changeset.errors)
     end
   end
-  def update(conn, %{"user" => params}) do
+  def update_password(conn, %{"user" => params}) do
     logged_in_user = Guardian.Plug.current_resource(conn)
     if checkpw(Map.get(params, "current_password"), logged_in_user.password_hash) do
       password = Map.get(params, "password")
@@ -29,6 +32,15 @@ defmodule DoaWeb.Api.UserController do
     else
       changeset = add_error(change(%User{}), :current_password, "incorrect password")
       changeset_errors(conn, changeset.errors)
+    end
+  end
+
+  def update(conn, %{"user" => params}) do
+    user = Guardian.Plug.current_resource(conn)
+    changeset = User.update_changeset(user, params)
+    case Repo.update(changeset) do
+      {:ok, _} -> ok(conn)
+      {:error, changeset} -> changeset_errors(conn, changeset.errors)
     end
   end
 
@@ -60,9 +72,10 @@ defmodule DoaWeb.Api.UserController do
       error(conn, "limit #{limit} is not a valid number")
     else
       user = Guardian.Plug.current_resource(conn)
+      IO.inspect user
       if int_limit <= @max_result_limit do
         # TODO: refactor this query composition
-        search_query = User.get_search_query(filter)
+        search_query = User.get_search_query(filter, user.id)
         num_entries = Repo.aggregate(search_query, :count, :id)
         paginated_query = (from q in search_query, limit: ^limit, offset: ^offset) |> User.user_follow_query(user.id)
         case Repo.all(paginated_query) do
@@ -80,5 +93,21 @@ defmodule DoaWeb.Api.UserController do
     end
   end
 
-
+  def show(conn, %{"id" => id}) do
+    case Repo.get(User, id) do
+      nil -> error(conn, "User does not exist")
+      user ->
+        user_from = Guardian.Plug.current_resource(conn)
+        is_permitted = Permissions.is_permitted?(user_from, user)
+        user_w_permission_info = Map.put(user, :is_permitted, is_permitted)
+        IO.inspect user_w_permission_info
+        if is_permitted do
+          query = from s in Story, where: s.user_id == ^id, select: %Story{id: s.id, user_id: s.user_id, title: s.title}
+          stories = Repo.all(query)
+          ok(conn, %{user: user_w_permission_info, stories: stories})
+        else
+          ok(conn, %{user: user_w_permission_info})
+        end
+    end
+  end
 end

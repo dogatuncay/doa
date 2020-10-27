@@ -13,7 +13,7 @@ const StoryPage = () => {
   const comments = story && story.comments ? story.comments : [];
 
   useEffect(() => {
-    if(story === null || story === undefined) {
+    if(!story || !story.body) {
       getStory(dispatch, id)
       .catch((err) => console.error(err.errors));
     }

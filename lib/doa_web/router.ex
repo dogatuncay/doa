@@ -26,7 +26,6 @@ defmodule DoaWeb.Router do
 
     resources "/user", UserController, only: [:create]
     resources "/plant", PlantController, only: [:index, :show]
-
   end
 
   scope "/api", DoaWeb.Api do
@@ -34,16 +33,21 @@ defmodule DoaWeb.Router do
 
     delete "/session", SessionController, :delete
 
-    resources "/user", UserController, only: [:index, :update]
+    resources "/user", UserController, only: [:index, :update, :show]
+    put "/user/:id/change_password", UserController, :update_password
     resources "/residence", ResidenceController, only: [:index, :create, :update, :delete]
     resources "/residence/:residence_id/plant", PlantInstanceController, only: [:index, :show, :create, :update, :delete]
     resources "/story", StoryController, only: [:index, :create, :update, :delete, :show]
     resources "/story/:story_id/comment", CommentController, only: [:index]
   end
 
+  scope "/api", DoaWeb do
+    pipe_through :api
+    match :*, "/*path", Api, :missing_route
+  end
+
   scope "/", DoaWeb do
     pipe_through :browser
-    match :*, "/api/*path", Api, :missing_route
     get "/*path", SinglePageAppController, :show_application
   end
 end

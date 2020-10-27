@@ -42,7 +42,7 @@ export function updatePlantInstance(residence_id, oldPlantInstance, newPlantInst
     const changedFields = compareObjects(oldPlantInstance, newPlantInstance);
     const plant_instance = filterObjectByKey(newPlantInstance, changedFields);
     return apiRequest(`/api/residence/${residence_id}/plant/${oldPlantInstance.id}`, 'PUT', {plant_instance})
-    .then((_) => { 
+    .then(() => { 
       dispatch(reloadPlantInstance(newPlantInstance));
       return newPlantInstance;
     });
@@ -51,7 +51,7 @@ export function updatePlantInstance(residence_id, oldPlantInstance, newPlantInst
 
 export function deletePlantInstance(residence_id, plant_instance_id, dispatch) {
   return apiRequest(`/api/residence/${residence_id}/plant/${plant_instance_id}`, 'DELETE')
-  .then((_) =>{ 
+  .then(() =>{ 
     dispatch(removePlantInstance(plant_instance_id));
   });
 }

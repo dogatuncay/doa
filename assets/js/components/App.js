@@ -2,8 +2,7 @@ import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
@@ -22,6 +21,7 @@ import PlantInstanceIndexPage from '../pages/PlantInstanceIndexPage';
 import StoryIndexPage from '../pages/StoryIndexPage';
 import StoryPage from '../pages/StoryPage';
 import UserSearchPage from '../pages/UserSearchPage';
+import UserProfilePage from '../pages/UserProfilePage';
 
 export default function App() {
   return (
@@ -66,6 +66,12 @@ export default function App() {
             </Route>
             <Route path='/user_search_page'>
               <UserSearchPage />
+            </Route>
+            <Route path='/user/:user_id/story/:id'>
+              <StoryPage />
+            </Route>
+            <Route path='/user/:id'>
+              <UserProfilePage />
             </Route>
             <Route exact path='/'>
               <HomePage />

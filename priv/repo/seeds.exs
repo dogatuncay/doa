@@ -53,11 +53,12 @@ defmodule Seeds do
     email: email,
     user_name: user_name,
     password: password,
+    is_public: is_public,
     num_residences: num_residences,
     num_plants: num_plants,
     num_stories: num_stories
   ) do
-    params = %{name: name, email: email, user_name: user_name, password: password}
+    params = %{name: name, email: email, user_name: user_name, password: password, is_public: is_public}
     changeset = User.registration_changeset(%User{}, params)
     user = Repo.insert!(changeset)
 
@@ -72,7 +73,7 @@ defmodule Seeds do
     changeset =
       user
       |> Ecto.build_assoc(:stories)
-      |> Story.changeset(params)
+      |> Story.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_story} ->
@@ -90,7 +91,7 @@ defmodule Seeds do
     changeset =
       user
       |> Ecto.build_assoc(:residences)
-      |> Residence.changeset(params)
+      |> Residence.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_residence} ->
@@ -112,7 +113,7 @@ defmodule Seeds do
     changeset =
       user
       |> Ecto.build_assoc(:plant_instances)
-      |> PlantInstance.changeset(params)
+      |> PlantInstance.create_changeset(params)
 
     case Repo.insert(changeset) do
       {:ok, created_plant_instance} ->
@@ -165,14 +166,15 @@ defmodule Seeds do
 
   def run do
     Repo.delete_all(PlantInstance)
-    Repo.delete_all(Plant)
+    # Repo.delete_all(Plant)
+    Repo.delete_all(Comment)
     Repo.delete_all(Story)
     Repo.delete_all(Residence)
     Repo.delete_all(Follow)
     Repo.delete_all(User)
     Repo.delete_all(Comment)
 
-    File.stream!("/Users/dogatuncay/Documents/elixir/doa/priv/repo/data/plants.csv")
+    File.stream!("/Users/dogatuncay/Documents/practice/elixir/doa/priv/repo/data/plants.csv")
     |> Stream.drop(1)
     |> CSV.decode(headers:
       [:accepted_symbol,
@@ -203,13 +205,14 @@ defmodule Seeds do
       :salinity_tolerance,
       :shade_tolerance,
       :min_temperature])
-    |> Enum.each(&Seeds.store_plants/1)
+    # |> Enum.each(&Seeds.store_plants/1)
 
     Seeds.generate_user_with_data(
       name: "Doga Tuncay",
       email: "doga@tuncay.com",
       user_name: "doga_tuncay",
       password: "tuncay123!",
+      is_public: true,
       num_residences: 3,
       num_plants: 5,
       num_stories: 10
@@ -220,6 +223,7 @@ defmodule Seeds do
       email: "old@mcdonald.com",
       user_name: "old_mcdonald",
       password: "mcdonald123!",
+      is_public: true,
       num_residences: 1,
       num_plants: 2,
       num_stories: 5
@@ -230,6 +234,7 @@ defmodule Seeds do
       email: "gold@mcdonald.com",
       user_name: "gold_mcdonald",
       password: "mcdonald123!",
+      is_public: false,
       num_residences: 1,
       num_plants: 9,
       num_stories: 100
@@ -240,6 +245,7 @@ defmodule Seeds do
       email: "american@gothic.com",
       user_name: "american_gothic",
       password: "gothic123!",
+      is_public: false,
       num_residences: 1,
       num_plants: 6,
       num_stories: 10

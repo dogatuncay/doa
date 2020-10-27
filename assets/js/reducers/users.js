@@ -3,7 +3,8 @@ import {
   LOAD_CURRENT_USER, 
   REMOVE_CURRENT_USER,
   LOAD_USER_SEARCH, 
-  SET_FOLLOW_STATUS
+  SET_FOLLOW_STATUS,
+  TOGGLE_PRIVACY
 } from '../actions/userActions'
 
 
@@ -21,10 +22,16 @@ export function users(state = {}, action) {
       return loadUsers([action.user]);
     case REMOVE_CURRENT_USER:
       return state.filter((user) => user.id !== action.userId);
-    case SET_FOLLOW_STATUS:
+    case SET_FOLLOW_STATUS: {
       const newState = {...state};
       newState[action.userId] = {...newState[action.userId], am_following: action.amFollowing}
       return newState;
+    }
+    case TOGGLE_PRIVACY: {
+      const newState = {...state};
+      newState[action.id] = {...newState[action.id], is_public: !state[action.id].is_public}
+      return newState;
+    }
     default:
       return state;
   }
