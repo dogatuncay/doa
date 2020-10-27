@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import { getCurrentUser } from '../api/user';
+import { getCurrentUser, updatePrivacy } from '../api/user';
 import Button from 'react-bootstrap/Button';
-import Spinner from '../components/Spinner'
+import Spinner from '../components/Spinner';
 
 const InfoField = ({label, info}) => {
   return (
@@ -23,15 +23,23 @@ const MyProfilePage = () => {
     if(!currentUserIndex) getCurrentUser(dispatch, (err) => console.error(err));
   }, []);
 
-  function onClick() {
+  function toChangePasswordPage() {
     history.push('/change_password_page');
   }
 
+  function togglePrivacy() {
+    updatePrivacy(currentUserData.id, {is_public: !currentUserData.is_public}, dispatch)
+    .catch((err) => console.error(err));
+  }
+
   if(currentUserData) {
+    const label = currentUserData.is_public ? "Private" : "Public"
     return (
       <div className="UserPageCard">
-        {Object.keys(currentUserData).map((key) => <InfoField key={key} label={key} info={currentUserData[key]} />)}
-        <Button variant="link" onClick={onClick}>Change Password</Button>
+        <InfoField key="name" label="Name" info={currentUserData.name} />
+        <InfoField key="username" label="Username" info={currentUserData.user_name} />
+        <Button variant="link" onClick={toChangePasswordPage}>Change Password</Button>
+        <Button variant="link" onClick={togglePrivacy}>Set Privacy to {label}</Button>
       </div>
     );
   } else {

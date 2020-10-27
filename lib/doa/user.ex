@@ -7,13 +7,15 @@ defmodule Doa.User do
   alias Doa.PlantInstance
   alias Doa.Story
 
-  @derive {Jason.Encoder, only: [:id, :name, :user_name]}
+  @derive {Jason.Encoder, only: [:id, :name, :user_name, :is_public, :is_permitted]}
   schema "users" do
     field :name, :string
     field :user_name, :string
     field :email, :string
     field :password, :string, virtual: true
+    field :is_permitted, :boolean, virtual: true
     field :password_hash, :string
+    field :is_public, :boolean, default: true
     has_many :residences, Residence
     has_many :plant_instances, PlantInstance
     has_many :stories, Story
@@ -37,7 +39,7 @@ defmodule Doa.User do
   end
 
   def registration_changeset(user, params \\ %{}) do
-    fields = [:email, :name, :user_name]
+    fields = [:email, :name, :user_name, :is_public]
     user
     |> cast(params, fields)
     |> validate_required(fields)
@@ -49,6 +51,13 @@ defmodule Doa.User do
     |> password_changeset(params)
   end
 
+  def update_changeset(user, params \\ %{}) do
+    fields = [:name, :is_public]
+    user
+    |> cast(params, fields)
+    |> validate_length(:name, min: 5)
+  end
+
   defp put_password_hash(changeset) do
     case changeset do
       %Ecto.Changeset{valid?: true, changes: %{password: pass}} ->
@@ -58,10 +67,10 @@ defmodule Doa.User do
   end
 
   # \\\\\\ -> \\\1 -> "\#{match[1]}""
-  def get_search_query(filter, query \\ __MODULE__) do
+  def get_search_query(filter, current_user_id, query \\ __MODULE__) do
     escaped_filter = Regex.replace(~r/([\%])/, filter,  "\\\\\\1", global: true)
     pattern = "%#{escaped_filter}%"
-    from u in query, where: ilike(u.user_name, ^pattern) or ilike(u.name, ^pattern)
+    from u in query, where: (ilike(u.user_name, ^pattern) or ilike(u.name, ^pattern)) and u.id != ^current_user_id
   end
 
   def user_follow_query(query, user_id) do

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
-import { changePassword } from '../api/user';
+import { getCurrentUser, changePassword } from '../api/user';
 import InputField from '../components/InputField';
+import Spinner from '../components/Spinner'
 
 const validations = {
   password: {
@@ -21,8 +22,14 @@ function getValidationErrors(data, name) {
   }
 }
 
-const ChangePasswordPage = () => {
+const ChangePasswordPage = (id) => {
   const history = useHistory();
+  const currentUserIndex = useSelector((state) => state.currentUser);
+  const currentUserData = useSelector((state) => state.users[currentUserIndex]);
+
+  useEffect(() => {
+    if(!currentUserIndex) getCurrentUser(dispatch, (err) => console.error(err));
+  }, []);
 
   const [data, setData] = useState({
     current_password: '',
@@ -44,7 +51,7 @@ const ChangePasswordPage = () => {
 
   function onClick() {
     setApiErrors({});
-    changePassword(data)
+    changePassword(currentUserData.id, data)
     .then(() => {
       if(Object.keys(apiErrors).length === 0) {
         history.push('/user_profile_page');
@@ -53,14 +60,19 @@ const ChangePasswordPage = () => {
     .catch((err) => setApiErrors(err));
   }
 
-  return (
-    <div className="UserPageCard">
-      {renderField('Current Password', 'current_password')}
-      {renderField('New Password', 'password')}
-      {renderField('Confirm New Password', 'password_repeat')}
-      <button className='submit-button' type="button" onClick={onClick}>Submit</button>
-    </div>
-  );
+  if(currentUserData) {
+    return (
+      <div className="UserPageCard">
+        {renderField('Current Password', 'current_password')}
+        {renderField('New Password', 'password')}
+        {renderField('Confirm New Password', 'password_repeat')}
+        <button className='submit-button' type="button" onClick={onClick}>Submit</button>
+      </div>
+    );
+  }
+  else {
+    return <Spinner />;
+  }
 }
 
 export default ChangePasswordPage;

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from "react-router-dom";
-import Button from 'react-bootstrap/Button';
 import { signIn } from '../api/user';
 import InputField from '../components/InputField';
 

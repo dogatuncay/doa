@@ -8,10 +8,9 @@ const StoryPage = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const story = useSelector((state) => state.stories[id]);
-  console.log(story);
 
   useEffect(() => {
-    if(!story) {
+    if(!story || !story.body) {
       getStory(dispatch, id)
       .catch((err) => console.error(err.errors));
     }
