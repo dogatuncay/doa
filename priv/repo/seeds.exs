@@ -166,7 +166,7 @@ defmodule Seeds do
 
   def run do
     Repo.delete_all(PlantInstance)
-    # Repo.delete_all(Plant)
+    Repo.delete_all(Plant)
     Repo.delete_all(Comment)
     Repo.delete_all(Story)
     Repo.delete_all(Residence)
@@ -205,7 +205,7 @@ defmodule Seeds do
       :salinity_tolerance,
       :shade_tolerance,
       :min_temperature])
-    # |> Enum.each(&Seeds.store_plants/1)
+    |> Enum.each(&Seeds.store_plants/1)
 
     Seeds.generate_user_with_data(
       name: "Doga Tuncay",

@@ -100,7 +100,6 @@ defmodule DoaWeb.Api.UserController do
         user_from = Guardian.Plug.current_resource(conn)
         is_permitted = Permissions.is_permitted?(user_from, user)
         user_w_permission_info = Map.put(user, :is_permitted, is_permitted)
-        IO.inspect user_w_permission_info
         if is_permitted do
           query = from s in Story, where: s.user_id == ^id, select: %Story{id: s.id, user_id: s.user_id, title: s.title}
           stories = Repo.all(query)

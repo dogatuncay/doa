@@ -1,16 +1,17 @@
-.comments {
+.comment-container {
   text-align: left;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-
-  .comment-body {
-    height: 100%;
-    background-color:green;
-  }
+  border: 1px solid lightgray;
+  margin-bottom: 10px;
+  overflow: hidden;
 
   .comment-vote {
-    height: 100%;
-    background-color: blue;
+    flex: 1;
+    max-width: 40px; 
   } 
+
+  .comment-body {
+    flex: 2;
+  }
 }

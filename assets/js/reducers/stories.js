@@ -20,7 +20,9 @@ export function stories(state = {}, action) {
       delete newState[action.id];
       return newState;
     case LOAD_STORY_COMMENTS:
-      newState[action.story_id] = {...state[action.story_id], comments: action.commentsData};
+      let story = state[action.story_id];
+      const comments = 'comments' in story ? story.comments : [];
+      newState[action.story_id] = {...story, comments: comments.concat(action.commentsData)};
       return newState;
     default:
       return state;

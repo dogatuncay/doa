@@ -23,11 +23,12 @@ defmodule DoaWeb.Api.CommentController do
   end
 
   def create(conn, %{"story_id" => story_id, "comment" => comment_params}) do
-    params = Map.put(comment_params, "story_id", story_id)
-    changeset =
-      Guardian.Plug.current_resource(conn)
-      |> Ecto.build_assoc(:stories)
-      |> Comment.create_changeset(params)
+      user = Guardian.Plug.current_resource(conn)
+      changeset =
+        Repo.get(Doa.Story, story_id)
+        |> Ecto.build_assoc(:comments)
+        |> Comment.create_changeset(comment_params)
+        |> Ecto.Changeset.put_assoc(:user, user)
 
     case Repo.insert(changeset) do
       {:ok, created_comment} ->
