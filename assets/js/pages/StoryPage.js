@@ -14,7 +14,7 @@ const StoryPage = () => {
   const comments = story && story.comments ? story.comments : [];
 
   const commentTrees = buildCommentIdTrees(comments);
-  console.log(commentTrees)
+
   useEffect(() => {
     if(!story || !story.body) {
       getStory(dispatch, id)

@@ -20,7 +20,7 @@ defmodule Doa.MixProject do
   def application do
     [
       mod: {Doa.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :absinthe_plug]
     ]
   end
 
@@ -50,6 +50,9 @@ defmodule Doa.MixProject do
       {:faker, "~> 0.13"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
+      {:absinthe, "~> 1.5"},
+      {:absinthe_plug, "~> 1.5"},
+      {:absinthe_phoenix, "~> 1.5"}
     ]
   end
 

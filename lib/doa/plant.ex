@@ -1,6 +1,8 @@
 defmodule Doa.Plant do
   use Ecto.Schema
   import Ecto.Query
+  alias Doa.Repo
+  alias Doa.Plant
 
   @required_fields [
     :accepted_symbol,

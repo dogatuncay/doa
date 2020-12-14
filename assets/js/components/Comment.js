@@ -32,7 +32,7 @@ const Comment = ({story_id, comment_id, children}) => {
   if(isEditing) {
     const saveComment = () => {
       if(newComment !== ''){
-        createComment(story_id, newComment, id, dispatch)
+        createComment(story_id, newComment, comment_id, dispatch)
         .then(()=> setIsEditing(false))
         .catch((err) => setError(err));
       }
@@ -47,7 +47,7 @@ const Comment = ({story_id, comment_id, children}) => {
     </div>
   }
   else {
-    replyElement = <FontAwesomeIcon icon={faCommentDots} onClick={() => beginCreating()}/>
+    replyElement = <FontAwesomeIcon icon={faCommentDots} size="lg" onClick={() => beginCreating()}/>
   }
 
   return (
@@ -58,8 +58,10 @@ const Comment = ({story_id, comment_id, children}) => {
         <div onClick={() => downvote(comment)}><FontAwesomeIcon icon={faArrowDown}/></div>
       </div>
       <div className="comment-body">
-        <div>{comment.body}</div>
-        {replyElement}
+        <div className="comment-body-text">
+          <div>{comment.body}</div>
+          {replyElement}
+        </div>
         {children}
         <div>{error}</div>
       </div>
