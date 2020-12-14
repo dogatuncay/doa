@@ -9,10 +9,18 @@ defmodule DoaWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
+  pipeline :session do
     plug :fetch_session
     plug Doa.Auth.Pipeline
+  end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+  end
+
+  pipeline :graphql do
+    plug :accepts, ["json"]
+    plug DoaWeb.Plug.GraphQLContext
   end
 
   pipeline :ensure_auth do
@@ -20,7 +28,7 @@ defmodule DoaWeb.Router do
   end
 
   scope "/api", DoaWeb.Api do
-    pipe_through :api
+    pipe_through [:api, :session]
 
     resources "/session", SessionController, only: [:index, :create]
 
@@ -29,7 +37,7 @@ defmodule DoaWeb.Router do
   end
 
   scope "/api", DoaWeb.Api do
-    pipe_through [:api, :ensure_auth]
+    pipe_through [:api, :session, :ensure_auth]
 
     delete "/session", SessionController, :delete
 
@@ -38,12 +46,20 @@ defmodule DoaWeb.Router do
     resources "/residence", ResidenceController, only: [:index, :create, :update, :delete]
     resources "/residence/:residence_id/plant", PlantInstanceController, only: [:index, :show, :create, :update, :delete]
     resources "/story", StoryController, only: [:index, :create, :update, :delete, :show]
-    resources "/story/:story_id/comment", CommentController, only: [:index]
+    resources "/story/:story_id/comment", CommentController, only: [:index, :create]
   end
 
   scope "/api", DoaWeb do
-    pipe_through :api
+    pipe_through [:api, :session]
     match :*, "/*path", Api, :missing_route
+  end
+
+  scope "/" do
+    pipe_through [:session, :graphql]
+
+    forward "/graphql", Absinthe.Plug.GraphiQL,
+      schema: DoaWeb.Schema.Schema,
+      interface: :simple
   end
 
   scope "/", DoaWeb do

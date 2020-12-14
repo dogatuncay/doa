@@ -1,0 +1,23 @@
+.comment-container {
+  text-align: left;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid lightgray;
+  margin-bottom: 10px;
+  overflow: hidden;
+
+  .comment-vote {
+    flex: 1;
+    max-width: 40px; 
+    padding-left: 5px;
+  } 
+
+  .comment-body {
+    flex: 2;
+    padding-top: 5px;
+  }
+
+  .comment-body-text {
+    min-height: 50px;
+  }
+}

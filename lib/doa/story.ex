@@ -10,10 +10,16 @@ defmodule Doa.Story do
   schema "stories" do
     field :title,    :string, size: 40
     field :body,    :string
+
     belongs_to :user, Doa.User
+    has_many :comments, Doa.Comment
 
     timestamps()
   end
+  @spec update_changeset(
+          {map, map} | %{:__struct__ => atom | %{__changeset__: map}, optional(atom) => any},
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   @doc false
   def update_changeset(story \\ %__MODULE__{}, attrs \\ %{}) do
     story

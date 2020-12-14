@@ -14,7 +14,7 @@ export function getCurrentUser(dispatch, onError) {
     .then((response) => {
       dispatch(loadCurrentUser(response.result));
     })
-    .catch((err) => {console.log(err); onError(err.errors)});
+    .catch((err) => {onError(err.errors)});
 }
 
 export function createNewUser(data, dispatch) {

@@ -8,6 +8,7 @@ defmodule DoaWeb.Api.ResidenceController do
     residences = Repo.all(Ecto.assoc(user, :residences))
     ok(conn, %{residences: residences})
   end
+
   def create(conn, %{"residence" => params}) do
     changeset =
       Guardian.Plug.current_resource(conn)
