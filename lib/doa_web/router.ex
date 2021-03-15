@@ -34,6 +34,7 @@ defmodule DoaWeb.Router do
 
     resources "/user", UserController, only: [:create]
     resources "/plant", PlantController, only: [:index, :show]
+    post "/test", UserController, :test
   end
 
   scope "/api", DoaWeb.Api do

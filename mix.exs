@@ -52,7 +52,8 @@ defmodule Doa.MixProject do
       {:excoveralls, "~> 0.10", only: :test},
       {:absinthe, "~> 1.5"},
       {:absinthe_plug, "~> 1.5"},
-      {:absinthe_phoenix, "~> 1.5"}
+      {:absinthe_phoenix, "~> 1.5"},
+      {:absinthe_relay, "~> 1.5"}
     ]
   end
 

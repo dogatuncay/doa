@@ -1,5 +1,7 @@
 defmodule DoaWeb.Schema.Schema do
   use Absinthe.Schema
+  use Absinthe.Relay.Schema.Notation, :modern
+
 
   import_types Absinthe.Type.Custom
   import_types(DoaWeb.Schema.PlantTypes)
@@ -8,6 +10,7 @@ defmodule DoaWeb.Schema.Schema do
   import_types(DoaWeb.Schema.CommentTypes)
   import_types(DoaWeb.Schema.ResidenceTypes)
   import_types(DoaWeb.Schema.PlantInstanceTypes)
+
 
   query do
     @desc "Get a list of plants"

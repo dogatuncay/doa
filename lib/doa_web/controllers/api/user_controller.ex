@@ -7,8 +7,57 @@ defmodule DoaWeb.Api.UserController do
   import Comeonin.Bcrypt, only: [checkpw: 2]
   import DoaWeb.Api.Helpers
   import Ecto.Query, only: [from: 2]
+  import Doa.Parser
+  alias Doa.Parser.Type
+  require Doa.Parser.Type
 
   @max_result_limit 200
+  action_fallback(DoaWeb.FallbackController)
+
+  def test_schema() do
+    Type.map(%{
+      "id" => Type.enum([:a, :b]),
+      "plant_id" => Type.integer(),
+      "favorite_color" => Type.optional(Type.string()) ~> String.trim("x") ~> String.upcase(),
+      "cool_maths" => Type.list(Type.integer()),
+      "flavors" => Type.list(Type.map(%{
+        "type_a" => Type.string(),
+        "type_b" => Type.optional(Type.string())
+      }))
+    })
+  end
+
+  # def id(), do: Type.string() ~> Helpers.decode_id()
+  #
+  # defschema publisher_client_params %{
+  #   first_video_id: optional(id()),
+  #   page_size: enforce_max(default(integer(), 30), 300),
+  #   publisher_client_id: integer(),
+  #   username: string(),
+  #   publisher_client: virtual(get_publisher_client(^publisher_client_id, ^username))
+  # }
+
+  # defschema test_schema %{
+  #   id: enum([:a, :b]),
+  #   plant_id: integer(),
+  #   favorite_color: optional(string()) ~> String.trim("x") ~> String.upcase(),
+  #   cool_maths: [integer()],
+  #   flavors: [%{
+  #     type_a: string(),
+  #     type_b: optional(string())
+  #   }]
+  # }
+
+  def test(conn, params) do
+    IO.puts "!!! 1"
+    test_schema()
+    IO.puts "!!! 2"
+    with {:ok, params} <- typecheck(params, test_schema()) do
+      IO.inspect(params)
+      ok(conn, %{test: "yo"})
+    end
+    # plant = Repo.get(Plant, plant_id)
+  end
 
   def create(conn, %{"user" => params}) do
     changeset = User.registration_changeset(%User{}, params)

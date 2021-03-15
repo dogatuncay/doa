@@ -1,6 +1,12 @@
 defmodule DoaWeb.ErrorView do
   use DoaWeb, :view
 
+    def render("400.json", assigns), do: %{error: assigns[:message] || "Bad request"}
+    def render("404.json", assigns), do: %{error: assigns[:message] || "Not found"}
+
+    def render("400.html", _assigns), do: "Bad request"
+    def render("404.html", _assigns), do: "Page not found"
+
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.
   # def render("500.html", _assigns) do
