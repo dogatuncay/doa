@@ -12,14 +12,20 @@ defmodule Doa.ParserMC do
   #   quote do: {:ok, unquote(x)}
   # end
 
-  def map_def({:%{}, attrs, members}, f) do
+  defp traverse({:%{}, attrs, members}, f) do
     new_members = Enum.map(members, fn {k, v} -> {k, f.(v)} end)
     f.({:%{}, attrs, new_members})
   end
-  def map_def(x, f), do: f.(x)
+  defp traverse(x, f), do: f.(x)
+
+  defp visit({:%{}, _, _} = ast) do
+    quote do: Type.map(unquote(ast))
+  end
+  defp visit(ast), do: ast
 
   defmacro test(ast) do
-    map_def(ast, fn x -> {:ok, x} end)
+    result = traverse(ast, &visit/1)
+    quote do: IO.inspect(unquote(Macro.to_string(result)))
   end
 end
 
@@ -51,17 +57,10 @@ defmodule Doa.ParserMC.Test do
   require Doa.ParserMC
   import Doa.ParserMC
 
-  IO.inspect(test %{
-    a: 1,
-    b: %{
-      c: 2
-    }
-  })
-
   test %{
-    a: {:ok, 1},
-    b: {:ok, %{
-      c: {:ok, 2}
-    }}
+    a: integer(),
+    b: %{
+      c: enum([:x, :y, :z])
+    }
   }
 end
